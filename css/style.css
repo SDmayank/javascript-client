@@ -1,0 +1,74 @@
+.main {
+  height: 100px;
+  margin: 5%;
+  box-shadow: 5px 5px 5px #777;
+  }
+  
+  .upper {
+  border: .1px solid grey;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0px;
+  }
+  
+  .upper--checkout {
+  padding-left: 6px;
+  flex-grow: 1;
+  font-weight: bold;
+  }
+  
+  .upper--close {
+  border: 1px solid grey;
+  background-color: black;
+  color: white;
+  flex-grow: 0;
+  padding: 1px;
+  margin-right: 5px;
+  }
+  
+  .lower {
+  border: 1px solid grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  /* box-shadow:5px 5px grey; */
+  }
+  
+  .payment {
+  padding-left: 6px;
+  flex-grow: 2;
+  }
+  
+  .cart {
+  background-color: #D3D3D3;
+  flex-grow: 1;
+  padding-top: 13px;
+  padding-left: 6px;
+  height: 37px;
+  }
+  .breadcrumb {
+    padding: 12px 16px;
+    list-style: none;
+    display: flex;
+    flex-grow: 2
+  }
+  .breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+  .breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+  .breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+  }
+  .breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+  }
