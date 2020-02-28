@@ -146,7 +146,7 @@ display: flex;
 
 .style1{
   box-sizing: border-box;
-  width:150%;
+  width:100%;
   margin-right: 10%;
 
 }
@@ -159,20 +159,27 @@ display: flex;
 }
 .style2{
   box-sizing: border-box;
-  width:150%;
+  width:100%;
+  margin-right: 10%;
+
+}
+
+.style2--1{
+  box-sizing: border-box;
+  width:100%;
   margin-right: 10%;
 
 }
 .style3{
   box-sizing: border-box;
-  width: 150%;
+  width: 100%;
   margin-right: 10%;
 
 
 }
 .column {
   float: left;
-  width:17%;
+  width:22%;
   padding: 15px 10px 10px 15px;
 }
 input[type=text] {
@@ -189,7 +196,7 @@ input[type=submit] {
 width: 100%;
 background-color: #4CAF50;
 color: white;
-padding: 4% 3%;
+padding: 5% 5%;
 margin: 3% 0;
 border: none;
 border-radius: 4px;
@@ -209,9 +216,9 @@ width: 53%;
 }
 
 .center {
-margin: 10px 10px 10px 170px ;
-width: 25%;
-padding: 10px;
+margin: 15px 15px 15px 190px ;
+width: 30%;
+padding: 15px;
 }
 
 .new_card {
@@ -255,6 +262,7 @@ border-color: lightgrey;
   border: 4px solid grey;
   height: 60px;
 }
+
 .lower--cart--1--details1{
   font-size: small;
   font-style: bold;
@@ -263,33 +271,33 @@ border-color: lightgrey;
 .lower--cart--1--details2{
   font-size: small;
   margin-left: 15px;
-  color: grey;
+  color: rgb(12, 12, 12)
 }
 .lower--cart--1--details2--1{
   font-size: small;
   margin-left: 180px;
-  color: grey;
+  color: rgb(12, 12, 12) 
 }
 .lower--cart--2--details--1{
   font-size: small;
   margin-left: 102px;
-  color: grey;
+  color: rgb(12, 12, 12)
 }
 
 .lower--cart--3--details--1{
   font-size: small;
   margin-left: 200px;
-  color: grey;
+  color: rgb(12, 12, 12)
 }
 .lower--cart--5--details1{
-  color: grey;
+  color: rgb(12, 12, 12);
 font-size: small;
 margin: 4px;
 }
 
 .lower--cart--5--details3{
 margin-left: 314px;
-color: grey;
+color: rgb(12, 12, 12);
 font-size: small;
 
 padding-top: 1px;
@@ -297,7 +305,7 @@ padding-top: 1px;
 }
 .lower--cart--5--details4{
   margin-left: 320px;
-  color: grey;
+  color: rgb(12, 12, 12);
   
   padding-top: 1px;
   padding-top: 1px;
@@ -309,7 +317,7 @@ padding-top: 1px;
   padding-top: 1px;
   margin-left: 308px;
   margin-top: 4px;
- color: grey;
+  color: rgb(12, 12, 12);
  font-size: small;
 }
 .lower--cart--6--details1
@@ -320,4 +328,7 @@ padding-top: 1px;
 {
   margin-left: 333px;
  font-size: small;
+}
+.lower--payment--images>div:hover{
+  box-shadow: 0 0 6px 1px rgba(218, 221, 223, 0.5);
 }
