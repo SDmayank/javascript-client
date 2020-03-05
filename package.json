@@ -15,6 +15,7 @@
     "commitizen": "^4.0.3",
     "d": "^1.0.1",
     "husky": "^4.2.3",
+    "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
@@ -26,9 +27,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint src",
-     "lint:fix": "eslint --fix --ext .js,.jsx .",
-     "commit": "npx git-cz"
-
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "commit": "npx git-cz"
   },
   "eslintConfig": {
     "extends": "react-app"
