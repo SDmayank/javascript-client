@@ -1,10 +1,10 @@
 import React from 'react';
-import TextfieldDemo from './Pages/TextfieldDemo/TextFieldDemo';
+import InputDemo from './Pages/InputDemo/InputDemo';
 
 function App() {
   return (
     <div>
-      <TextfieldDemo value="hello" />
+      <InputDemo value="hello" />
     </div>
   );
 }

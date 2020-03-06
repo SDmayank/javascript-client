@@ -1,10 +1,23 @@
-/* eslint-disable */
-import React, { Component } from 'react';
-import Input from '../../component/textfield/style';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Input from './style';
 
-export default function Textfield(props) {
-  const { value , disabled} = props;
-  return(
-    <Input type="text" value={value} disabled={(disabled)} />
-  )
-}
+const TextField = (props) => {
+  console.log('textfield demo', props);
+  const { onChange, error } = props;
+  return (
+    <Input
+      type="text"
+      onChange={onChange}
+      error={error}
+    />
+  );
+};
+TextField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};
+TextField.defaultProps = {
+  error: '',
+};
+export default TextField;
