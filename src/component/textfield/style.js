@@ -9,4 +9,9 @@ border: 1px solid #ccc;
 border-radius: 4px;
 `;
 
+const P = styled.p`
+color: red;
+margin: auto
+`;
 export default Input;
+export { P };
