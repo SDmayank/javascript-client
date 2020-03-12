@@ -50,4 +50,3 @@ border-radius: 6px;
 export const Div = styled.div`
 align:right;
 `;
-
