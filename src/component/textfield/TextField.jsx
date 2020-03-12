@@ -1,21 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Input from './style';
+import Input, { P } from './style';
 
 const TextField = (props) => {
   console.log('textfield demo', props);
-  const { onChange, error } = props;
+  const { onChange, error, onBlur } = props;
   return (
-    <Input
-      type="text"
-      onChange={onChange}
-      error={error}
-    />
+    <>
+      <Input
+        type="text"
+        onChange={onChange}
+        onBlur={onBlur}
+
+      />
+
+      <P>
+        {error}
+      </P>
+    </>
   );
 };
 TextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
+  onBlur: PropTypes.objectOf.isRequired,
 };
 TextField.defaultProps = {
   error: '',

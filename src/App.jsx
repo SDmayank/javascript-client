@@ -4,7 +4,7 @@ import InputDemo from './Pages/InputDemo/InputDemo';
 function App() {
   return (
     <div>
-      <InputDemo value="hello" />
+      <InputDemo />
     </div>
   );
 }
