@@ -52,4 +52,6 @@ const radioOptionsFootball = [
   },
 
 ];
+
+export const Operators = ['+', '-', '/', '*'];
 export { radioOptionsFootball, selectOption, radioOptionsCricket };
