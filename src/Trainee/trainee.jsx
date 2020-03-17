@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import FormDialog from './component/AddDialoge/AddDialoge';
+import FormDialog from './component/index';
 
 class Trainee extends React.Component {
   constructor(props) {
@@ -12,10 +12,10 @@ class Trainee extends React.Component {
 
   render() {
     const handleClickOpen = () => {
-      this.setState({ open: true }, () => { console.log(this.state); });
+      this.setState({ open: true }, () => { });
     };
     const handleClose = () => {
-      this.setState({ open: false }, () => { console.log(this.state); });
+      this.setState({ open: false }, () => { });
     };
     const { open } = this.state;
     return (
