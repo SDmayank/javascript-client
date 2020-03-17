@@ -5,6 +5,7 @@ import { Operators } from '../../config/constant';
 export class Math extends React.Component {
   calResult = (first, second, operator) => {
     let result = first + operator + second;
+    // eslint-disable-next-line no-eval
     result = (Operators.includes(operator)) ? eval(result) : 'Invalid Operation';
     return result;
   };

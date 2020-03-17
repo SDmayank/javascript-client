@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Math } from '../../component/Math/index';
+import { Math } from '../../component/Math';
 
 export class ChildrenDemo extends React.Component {
   children = (first, second, operator, result) => {

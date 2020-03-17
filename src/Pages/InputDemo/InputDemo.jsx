@@ -148,6 +148,7 @@ class InputDemo extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-console
     console.log(this.state);
     const { sport, name } = this.state;
     return (
