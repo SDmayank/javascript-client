@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import FormDialog from './component/index';
+import FormDialog from './component';
 
 class Trainee extends React.Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class Trainee extends React.Component {
 
   handleSumbit = (data) => {
     this.setState({ open: false }, () => { });
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 
