@@ -1,4 +1,4 @@
-import Handler from './components';
+import Formfields from './components';
 import validKey from './componentType';
 
-export { validKey, Handler };
+export { validKey, Formfields };

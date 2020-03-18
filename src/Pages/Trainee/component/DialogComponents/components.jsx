@@ -4,7 +4,7 @@ import {
   TextField, InputAdornment,
 } from '@material-ui/core';
 
-const Handler = (props) => {
+const Formfields = (props) => {
   const {
     helperText, error, onChange, onBlur, type, label, icons,
   } = props;
@@ -34,7 +34,7 @@ const Handler = (props) => {
   );
 };
 
-Handler.propTypes = {
+Formfields.propTypes = {
   helperText: PropTypes.string,
   error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -44,7 +44,7 @@ Handler.propTypes = {
   icons: PropTypes.instanceOf(Object),
 };
 
-Handler.defaultProps = {
+Formfields.defaultProps = {
   helperText: false,
   error: false,
   type: false,
@@ -52,4 +52,4 @@ Handler.defaultProps = {
   icons: {},
 };
 
-export default Handler;
+export default Formfields;
