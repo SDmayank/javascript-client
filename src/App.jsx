@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Trainee from './Trainee/index';
+import { Trainee } from './Pages';
 
 function App() {
   return (
