@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import PersonIcon from '@material-ui/icons/Person';
-import EmailIcon from '@material-ui/icons/Email';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { PersonIcon } from '@material-ui/icons/Person';
+import { EmailIcon } from '@material-ui/icons/Email';
+import { VisibilityOffIcon } from '@material-ui/icons/VisibilityOff';
 
 export const PUBLIC_IMAGE_FOLDER = '/images/';
 export const DEFAULT_BANNER_IMAGE = 'banners/default.png';
