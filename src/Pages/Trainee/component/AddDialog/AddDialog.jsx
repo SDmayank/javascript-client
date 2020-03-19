@@ -67,9 +67,8 @@ class AddDialog extends React.Component {
       open, onClose, onSubmit, classes,
     } = this.props;
     const { name, email, password } = this.state;
-    const result = [];
-    Object.keys(icons).forEach((key) => {
-      result.push(<Formfields
+    const result = Object.keys(icons).map((key) => (
+      <Formfields
         helperText={this.getError(key)}
         label={key}
         error={!!this.getError(key)}
@@ -77,8 +76,8 @@ class AddDialog extends React.Component {
         onBlur={() => this.isTouched(key)}
         icons={icons[key]}
         type={validKey(key)}
-      />);
-    });
+      />
+    ));
 
     return (
       <>
