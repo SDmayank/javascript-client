@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Math } from '../../component/Math/index';
+import { Math } from '../../component/Math';
 
 export class ChildrenDemo extends React.Component {
   children = (first, second, operator, result) => {
@@ -21,14 +21,32 @@ export class ChildrenDemo extends React.Component {
   render() {
     return (
       <>
-        <Math first="3" second="4" operator="^" children={this.children} />
-        <Math first="3" second="4" operator="+" children={this.children} />
-        <Math first="3" second="4" operator="-" children={this.children} />
-        <Math first="3" second="4" operator="*" />
-        <Math first="3" second="4" operator="?" children={this.children} />
-        <Math first="3" second="0" operator="/" />
-        <Math first="3" second="4" operator="/" children={this.children} />
-
+        <Math first={3} second={4} operator="^">
+          {' '}
+          children=
+          {this.children}
+        </Math>
+        <Math first={3} second={4} operator="+">
+          children=
+          {this.children}
+        </Math>
+        <Math first={3} second={4} operator="-">
+          children=
+          {this.children}
+        </Math>
+        <Math first={3} second={4} operator="*">
+          children=
+          {this.children}
+        </Math>
+        <Math first={3} second={4} operator="?">
+          children=
+          {this.children}
+        </Math>
+        <Math first={3} second={4} operator="/" />
+        <Math first={3} second={4} operator="/">
+          children=
+          {this.children}
+        </Math>
       </>
     );
   }

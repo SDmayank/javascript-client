@@ -3,7 +3,6 @@ import React from 'react';
 import Input, { P } from './style';
 
 const TextField = (props) => {
-  console.log('textfield demo', props);
   const { onChange, error, onBlur } = props;
   return (
     <>

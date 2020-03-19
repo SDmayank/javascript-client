@@ -5,6 +5,7 @@ import { Operators } from '../../config/constant';
 export class Math extends React.Component {
   calResult = (first, second, operator) => {
     let result = first + operator + second;
+    // eslint-disable-next-line no-eval
     result = (Operators.includes(operator)) ? eval(result) : 'Invalid Operation';
     return result;
   };
@@ -22,7 +23,7 @@ export class Math extends React.Component {
 Math.propTypes = {
   first: PropType.number.isRequired,
   second: PropType.number.isRequired,
-  operator: PropType.oneOf(['+', '-', '/', '*']).isRequired,
+  operator: PropType.oneOf(['+', '-', '/', '*', '?', '^']).isRequired,
   children: PropType.func,
 };
 Math.defaultProps = {

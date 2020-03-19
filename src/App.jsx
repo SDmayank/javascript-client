@@ -1,20 +1,12 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { theme } from './theme';
-
-import ChildrenDemo from './Pages/childrenDemo';
-
+import { Trainee } from './Pages';
 
 function App() {
-  console.log(theme, "===============")
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Typography>
-          <ChildrenDemo />
-        </Typography>
-      </ThemeProvider>
+
+      <Trainee />
+
     </>
   );
 }

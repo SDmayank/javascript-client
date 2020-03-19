@@ -116,13 +116,16 @@ class InputDemo extends Component {
   }
 
   getError = (field) => {
-    if (this.state.touched[field] && this.hasError()) {
+    const { touched } = this.state;
+    if (touched[field] && this.hasError()) {
       try {
         this.schema.validateSyncAt(field, this.state);
+        return false;
       } catch (err) {
         return err.message;
       }
     }
+    return false;
   }
 
   hasError = () => {
@@ -136,7 +139,6 @@ class InputDemo extends Component {
 
   isTouched = (field) => {
     const { touched } = this.state;
-    console.log('field', field);
     this.setState({
       touched: {
         ...touched,
@@ -146,6 +148,7 @@ class InputDemo extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-console
     console.log(this.state);
     const { sport, name } = this.state;
     return (
@@ -165,7 +168,8 @@ class InputDemo extends Component {
           onChange={this.onChangeSelectOptions}
           value={sport}
           error={this.getError('sport')}
-          onBlur={() => this.isTouched('sport')} />
+          onBlur={() => this.isTouched('sport')}
+        />
 
         {
 
