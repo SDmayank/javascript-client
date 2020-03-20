@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import * as yup from 'yup';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Container from '@material-ui/core/Container';
@@ -70,7 +70,6 @@ class Login extends Component {
     schema
       .isValid(this.state)
       .then((valid) => {
-        console.log('valid', valid);
         if (!valid !== hasError) {
           this.setState({ hasError: !valid });
         }
@@ -79,7 +78,6 @@ class Login extends Component {
 
   isTouched = (field) => {
     const { touched } = this.state;
-    console.log('field', field);
     this.setState({
       touched: {
         ...touched,
@@ -181,7 +179,7 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  classes: propTypes.objectOf.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default withStyles(useStyles)(Login);
