@@ -39,11 +39,6 @@ export default function NavBar() {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-      <div className={classes.dialog}>
-        <Button variant="outlined" color="primary">
-          ADD TRAINEE
-        </Button>
-      </div>
     </div>
   );
 }
