@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 
 
-const Formfields = (props) => {
+const LoginFields = (props) => {
   const {
     helperText, error, onChange, onBlur, type, label, icons,
   } = props;
@@ -35,7 +35,7 @@ const Formfields = (props) => {
   );
 };
 
-Formfields.propTypes = {
+LoginFields.propTypes = {
   helperText: PropTypes.string,
   error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -45,7 +45,7 @@ Formfields.propTypes = {
   icons: PropTypes.instanceOf(Object),
 };
 
-Formfields.defaultProps = {
+LoginFields.defaultProps = {
   helperText: false,
   error: false,
   type: false,
@@ -53,4 +53,4 @@ Formfields.defaultProps = {
   icons: {},
 };
 
-export default Formfields;
+export default LoginFields;

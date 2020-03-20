@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
 }));
+const navbarItems = ['Trainee', 'TextField Demo', 'Input Demo', 'Children Demo', 'login'];
 
 export default function NavBar() {
   const classes = useStyles();
@@ -31,12 +32,12 @@ export default function NavBar() {
             Trainee Portal
           </Typography>
           <div className={classes.menuButton}>
-            <Button color="inherit">Trainee</Button>
-            <Button color="inherit">TextField Demo</Button>
-            <Button color="inherit">Input Demo</Button>
-            <Button color="inherit">Children Demo</Button>
+            {
+              navbarItems.map((button) => (
+                <Button color="inherit">{button}</Button>
+              ))
+            }
           </div>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -3,17 +3,20 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-// import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+// import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import EmailIcon from '@material-ui/icons/Email';
-import InputAdornment from '@material-ui/core/InputAdornment';
+// import EmailIcon from '@material-ui/icons/Email';
+// import InputAdornment from '@material-ui/core/InputAdornment';
 import { Box } from '@material-ui/core';
+import { validKey } from '../Trainee';
+import LoginFields from './loginComponents';
+import { loginIcons } from '../../config/constant';
+
 
 const schema = yup.object().shape({
   email: yup.string().email().required('Email is required'),
@@ -76,6 +79,7 @@ class Login extends Component {
       });
   }
 
+
   isTouched = (field) => {
     const { touched } = this.state;
     this.setState({
@@ -113,11 +117,22 @@ class Login extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const {
-      email, password, hasError, error,
+      hasError,
     } = this.state;
     this.hasErrors();
+    const { classes } = this.props;
+    const result = Object.keys(loginIcons).map((key) => (
+      <LoginFields
+        helperText={this.getError(key)}
+        label={key}
+        error={!!this.getError(key)}
+        onChange={this.handleChange(key)}
+        onBlur={() => this.isTouched(key)}
+        icons={loginIcons[key]}
+        type={validKey(key)}
+      />
+    ));
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -130,37 +145,14 @@ class Login extends Component {
               Log in
             </Typography>
             <form className={classes.form} noValidate>
-              <TextField
-                label="Email Address"
-                id="outlined-start-adornment"
-                margin="normal"
-                value={email}
-                error={!!error.email}
-                fullWidth
-                onChange={this.handleChange('email')}
-                helperText={this.getError('email')}
-                onBlur={() => this.isTouched('email')}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"><EmailIcon /></InputAdornment>,
-                }}
-                variant="outlined"
-              />
-              <TextField
-                label="Password"
-                id="outlined-start-adornment"
-                margin="normal"
-                type="password"
-                value={password}
-                error={!!error.password}
-                fullWidth
-                onChange={this.handleChange('password')}
-                helperText={this.getError('password')}
-                onBlur={() => this.isTouched('password')}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"><VisibilityOff /></InputAdornment>,
-                }}
-                variant="outlined"
-              />
+              <div>
+                {result[0]}
+              </div>
+              &nbsp;
+              <div>
+                {result[1]}
+              </div>
+              &nbsp;
               <Button
                 type="submit"
                 fullWidth

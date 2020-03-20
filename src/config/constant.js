@@ -75,8 +75,12 @@ const icons = {
   confirmPassword: VisibilityOffIcon,
 };
 
+const loginIcons = {
+  email: EmailIcon,
+  password: VisibilityOffIcon,
+};
 
 export const Operators = ['+', '-', '/', '*'];
 export {
-  radioOptionsFootball, selectOption, radioOptionsCricket, schema, icons,
+  radioOptionsFootball, selectOption, radioOptionsCricket, schema, icons, loginIcons,
 };
