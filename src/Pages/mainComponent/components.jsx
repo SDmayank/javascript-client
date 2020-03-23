@@ -1,12 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import {
   TextField, InputAdornment,
 } from '@material-ui/core';
 
-const Formfields = (props) => {
+
+const Fields = (props) => {
   const {
-    helperText, error, onChange, onBlur, type, label, icons,
+    helperText, error, onChange, onBlur, type, label, icons, className,
   } = props;
   const Icon = icons;
   return (
@@ -29,12 +30,13 @@ const Formfields = (props) => {
         onChange={onChange}
         onBlur={onBlur}
         type={type}
+        className={className}
       />
     </>
   );
 };
 
-Formfields.propTypes = {
+Fields.propTypes = {
   helperText: PropTypes.string,
   error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -42,9 +44,10 @@ Formfields.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
   icons: PropTypes.instanceOf(Object),
+  className: PropTypes.string.isRequired,
 };
 
-Formfields.defaultProps = {
+Fields.defaultProps = {
   helperText: false,
   error: false,
   type: false,
@@ -52,4 +55,4 @@ Formfields.defaultProps = {
   icons: {},
 };
 
-export default Formfields;
+export default Fields;

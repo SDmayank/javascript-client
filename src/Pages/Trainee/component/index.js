@@ -1,3 +1,5 @@
-import FormDialog from './AddDialog';
+import validKey from './DialogComponents';
+import AddDialog from './AddDialog';
 
-export default FormDialog;
+export default validKey;
+export { AddDialog };

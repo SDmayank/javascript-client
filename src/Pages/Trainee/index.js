@@ -1,5 +1,5 @@
 import Trainee from './trainee';
-import FormDialog from './component';
+import validKey from './component';
 
 export default Trainee;
-export { FormDialog };
+export { validKey };

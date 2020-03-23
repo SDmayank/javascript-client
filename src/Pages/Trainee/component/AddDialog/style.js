@@ -7,6 +7,9 @@ const styles = () => ({
   lowerTextfield: {
     flex: 1,
   },
+  marginButton: {
+    marginTop: '3%',
+  },
 });
 
 export default styles;
