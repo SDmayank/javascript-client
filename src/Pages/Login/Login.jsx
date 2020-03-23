@@ -4,7 +4,7 @@ import {
   Avatar, Button, CssBaseline, Box,
 } from '@material-ui/core';
 import * as yup from 'yup';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -122,17 +122,6 @@ class Login extends Component {
     this.hasErrors();
 
     const { classes } = this.props;
-    const result = Object.keys(loginIcons).map((key) => (
-      <Fields
-        helperText={this.getError(key)}
-        label={key}
-        error={!!this.getError(key)}
-        onChange={this.handleChange(key)}
-        onBlur={() => this.isTouched(key)}
-        icons={loginIcons[key]}
-        type={validKey(key)}
-      />
-    ));
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -145,13 +134,23 @@ class Login extends Component {
               Log in
             </Typography>
             <form className={classes.form} noValidate>
-              {result.map((key) => (
-                <div className={classes.space}>
-                  {key}
-                </div>
+              {
+                Object.keys(loginIcons).map((key, i) => (
+                  <Fields
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`key${i}`}
+                    helperText={this.getError(key)}
+                    label={key}
+                    error={!!this.getError(key)}
+                    onChange={this.handleChange(key)}
+                    onBlur={() => this.isTouched(key)}
+                    icons={loginIcons[key]}
+                    type={validKey(key)}
+                    className={classes.space}
+                  />
 
-
-              ))}
+                ))
+              }
               <Button
                 type="submit"
                 fullWidth

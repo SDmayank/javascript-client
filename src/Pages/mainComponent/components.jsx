@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import {
   TextField, InputAdornment,
 } from '@material-ui/core';
@@ -7,7 +7,7 @@ import {
 
 const Fields = (props) => {
   const {
-    helperText, error, onChange, onBlur, type, label, icons,
+    helperText, error, onChange, onBlur, type, label, icons, className,
   } = props;
   const Icon = icons;
   return (
@@ -30,6 +30,7 @@ const Fields = (props) => {
         onChange={onChange}
         onBlur={onBlur}
         type={type}
+        className={className}
       />
     </>
   );
@@ -43,6 +44,7 @@ Fields.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
   icons: PropTypes.instanceOf(Object),
+  className: PropTypes.string.isRequired,
 };
 
 Fields.defaultProps = {
