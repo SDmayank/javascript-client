@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
+import {
+  Avatar, Button, CssBaseline, Box,
+} from '@material-ui/core';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-// import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-// import EmailIcon from '@material-ui/icons/Email';
-// import InputAdornment from '@material-ui/core/InputAdornment';
-import { Box } from '@material-ui/core';
+
 import { validKey } from '../Trainee';
-import LoginFields from './loginComponents';
+import Fields from '../mainComponent';
 import { loginIcons } from '../../config/constant';
 
 
@@ -43,6 +39,9 @@ const useStyles = (theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  space: {
+    marginTop: '6%',
   },
 });
 
@@ -121,9 +120,10 @@ class Login extends Component {
       hasError,
     } = this.state;
     this.hasErrors();
+
     const { classes } = this.props;
     const result = Object.keys(loginIcons).map((key) => (
-      <LoginFields
+      <Fields
         helperText={this.getError(key)}
         label={key}
         error={!!this.getError(key)}
@@ -145,14 +145,13 @@ class Login extends Component {
               Log in
             </Typography>
             <form className={classes.form} noValidate>
-              <div>
-                {result[0]}
-              </div>
-              &nbsp;
-              <div>
-                {result[1]}
-              </div>
-              &nbsp;
+              {result.map((key) => (
+                <div className={classes.space}>
+                  {key}
+                </div>
+
+
+              ))}
               <Button
                 type="submit"
                 fullWidth

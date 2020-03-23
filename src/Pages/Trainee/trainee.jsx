@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import AddDialog from './component';
+import { AddDialog } from './component';
 import NavBar from '../components';
 import styles from './component/AddDialog/style';
 

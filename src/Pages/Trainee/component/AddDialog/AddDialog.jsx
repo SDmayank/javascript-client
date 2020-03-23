@@ -6,7 +6,8 @@ import {
 } from '@material-ui/core';
 import { schema, icons } from '../../../../config/constant';
 import styles from './style';
-import { validKey, Formfields } from '../DialogComponents';
+import validKey from '../DialogComponents';
+import Fields from '../../../mainComponent';
 
 class AddDialog extends React.Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class AddDialog extends React.Component {
     } = this.props;
     const { name, email, password } = this.state;
     const result = Object.keys(icons).map((key) => (
-      <Formfields
+      <Fields
         helperText={this.getError(key)}
         label={key}
         error={!!this.getError(key)}
