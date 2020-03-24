@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { Select, P } from './style';
 
 
@@ -29,8 +29,8 @@ SelectField.propTypes = {
   defaultOption: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  onBlur: PropTypes.objectOf.isRequired,
+  error: PropTypes.bool,
+  onBlur: PropTypes.func.isRequired,
 
 };
 SelectField.defaultProps = {

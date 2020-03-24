@@ -1,53 +1,123 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Math } from '../../component';
 
-import { Math } from '../../component/Math';
+class ChildrenDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-export class ChildrenDemo extends React.Component {
   children = (first, second, operator, result) => {
     switch (operator) {
-    case '+':
-      return (`sum of ${first} and ${second} is ${result}`);
-    case '-':
-      return (`subtraction of ${first} and ${second} is ${result}`);
-    case '/':
-      return (`division of ${first} and ${second} is ${result}`);
-    case '*':
-      return (`product of ${first} and ${second} is ${result}`);
-    default:
-      return (`${operator} of ${first} and ${second} is Invalid`);
+    case '+': {
+      return (
+        <p>
+          Sum of
+          {' '}
+          {' '}
+          {first}
+          {' '}
+          {' '}
+          and
+          {' '}
+          {second}
+          {' '}
+          is
+          {' '}
+          {' '}
+          {result}
+        </p>
+      );
+    }
+    case '-': {
+      return (
+        <p>
+          Subtraction of
+          {' '}
+          {' '}
+          {first}
+          {' '}
+          and
+          {' '}
+          {second}
+          {' '}
+          is
+          {' '}
+          {' '}
+          {result}
+        </p>
+      );
+    }
+    case '*': {
+      return (
+        <p>
+          Multiplication of
+          {' '}
+          {' '}
+          {' '}
+          {first}
+          {' '}
+          and
+          {' '}
+          {' '}
+          {second}
+          {' '}
+          is
+          {' '}
+          {' '}
+          {result}
+        </p>
+      );
+    }
+    case '/': {
+      return (
+        <p>
+          Division of
+          {' '}
+          {' '}
+          {first}
+          {' '}
+          and
+          {' '}
+          {second}
+          {' '}
+          is
+          {' '}
+          {' '}
+          {result}
+        </p>
+      );
+    }
+    default: {
+      return (
+        <p>
+          {' '}
+          {' '}
+          {first}
+          {' '}
+          {operator}
+          {' '}
+          {second}
+          {' '}
+          is
+          {' '}
+          {' '}
+          {result}
+        </p>
+      );
+    }
     }
   }
 
   render() {
     return (
       <>
-        <Math first={3} second={4} operator="^">
-          {' '}
-          children=
-          {this.children}
-        </Math>
-        <Math first={3} second={4} operator="+">
-          children=
-          {this.children}
-        </Math>
-        <Math first={3} second={4} operator="-">
-          children=
-          {this.children}
-        </Math>
-        <Math first={3} second={4} operator="*">
-          children=
-          {this.children}
-        </Math>
-        <Math first={3} second={4} operator="?">
-          children=
-          {this.children}
-        </Math>
-        <Math first={3} second={4} operator="/" />
-        <Math first={3} second={4} operator="/">
-          children=
-          {this.children}
-        </Math>
+        <Math first={7} second={4} operator="+">{this.children}</Math>
+        <Math first={7} second={3} operator="-">{this.children}</Math>
+        <Math first={7} second={4} operator="*">{this.children}</Math>
+        <Math first={7} second={4} operator="/" />
       </>
     );
   }
 }
+export default ChildrenDemo;

@@ -44,7 +44,7 @@ Fields.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
   icons: PropTypes.instanceOf(Object),
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 Fields.defaultProps = {
@@ -53,6 +53,7 @@ Fields.defaultProps = {
   type: false,
   label: '',
   icons: {},
+  className: undefined,
 };
 
 export default Fields;

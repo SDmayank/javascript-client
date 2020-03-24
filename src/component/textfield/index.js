@@ -1,6 +1,5 @@
-import Textfield from './TextField';
+import TextField from './TextField';
 import Input, { Para, P } from './style';
 
-
-export default Textfield;
+export default TextField;
 export { Input, Para, P };
