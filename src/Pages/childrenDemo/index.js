@@ -1,3 +1,3 @@
-import { ChildrenDemo } from './childrenDemo';
+import ChildrenDemo from './childrenDemo';
 
 export default ChildrenDemo;

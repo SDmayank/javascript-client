@@ -4,8 +4,8 @@ import TextfieldDemo from './TextfieldDemo';
 import Trainee from './Trainee';
 import Login from './Login';
 import NavBar from './components';
+import NotFound from './nomatch';
 
-export default ChildrenDemo;
 export {
-  InputDemo, TextfieldDemo, Trainee, NavBar, Login,
+  InputDemo, TextfieldDemo, Trainee, NavBar, Login, NotFound, ChildrenDemo,
 };

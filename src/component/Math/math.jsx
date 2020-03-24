@@ -1,31 +1,52 @@
 import React from 'react';
-import PropType from 'prop-types';
-import { Operators } from '../../config/constant';
+import { PropTypes } from 'prop-types';
 
-export class Math extends React.Component {
-  calResult = (first, second, operator) => {
-    let result = first + operator + second;
-    // eslint-disable-next-line no-eval
-    result = (Operators.includes(operator)) ? eval(result) : 'Invalid Operation';
-    return result;
-  };
-
-  render() {
-    const {
-      first, second, operator, children,
-    } = this.props;
-    const result = this.calResult(first, second, operator);
-    return (children !== undefined)
-      ? (<p>{children(first, second, operator, result)}</p>)
-      : (<p>{`${first} ${operator} ${second} = ${result}`}</p>);
+const Math = (props) => {
+  const {
+    first, second, operator, children,
+  } = props;
+  let result;
+  switch (operator) {
+  case '+': result = first + second;
+    break;
+  case '-': result = first - second;
+    break;
+  case '*': result = first * second;
+    break;
+  case '/': result = (second === 0) ? 'Infinity' : first / second;
+    break;
+  default: result = 'Invalid Operation';
+    break;
   }
-}
-Math.propTypes = {
-  first: PropType.number.isRequired,
-  second: PropType.number.isRequired,
-  operator: PropType.oneOf(['+', '-', '/', '*', '?', '^']).isRequired,
-  children: PropType.func,
+  if (children) {
+    return (children(first, second, operator, result));
+  }
+  return (
+    <p>
+      {' '}
+      {first}
+      {' '}
+      {operator}
+      {' '}
+      {second}
+      {' '}
+      {'='}
+      {' '}
+      {result}
+    </p>
+  );
 };
+
+
+Math.propTypes = {
+  first: PropTypes.number.isRequired,
+  second: PropTypes.number.isRequired,
+  operator: PropTypes.string.isRequired,
+  children: PropTypes.func,
+};
+
 Math.defaultProps = {
   children: undefined,
 };
+
+export default Math;

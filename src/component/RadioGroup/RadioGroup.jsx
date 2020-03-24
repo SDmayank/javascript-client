@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { P } from './style';
 
 const RadioGroup = (props) => {
@@ -29,7 +29,7 @@ const RadioGroup = (props) => {
 RadioGroup.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.bool,
   onBlur: PropTypes.objectOf.isRequired,
 };
 RadioGroup.defaultProps = {

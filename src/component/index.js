@@ -1,9 +1,11 @@
 import Slider from './slider';
-import Textfield, { Para, P } from './textfield';
+import TextField, { Para, P } from './textfield';
 import RadioGroup from './RadioGroup';
 import SelectField from './SelectField';
+import button from './button';
+import Math from './Math';
 
-export default Textfield;
+export default TextField;
 export {
-  Slider, RadioGroup, SelectField, Para, P,
+  Slider, RadioGroup, SelectField, Para, P, button, Math,
 };
