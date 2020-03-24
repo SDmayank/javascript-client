@@ -6,6 +6,7 @@ import { PrivateRoute, AuthRoute } from './routes/index';
 import {
   TextfieldDemo, InputDemo, ChildrenDemo, Trainee, NotFound, Login,
 } from './Pages';
+
 function App() {
   return (
     <Router>

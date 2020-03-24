@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Navbar } from '../components';
@@ -10,8 +11,10 @@ const PrivateLayout = ({ children }) => (
 );
 
 PrivateLayout.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  children: PropTypes.object.isRequired,
+  children: PropTypes.object,
+};
+PrivateLayout.defaultProps = {
+  children: undefined,
 };
 
 export default PrivateLayout;

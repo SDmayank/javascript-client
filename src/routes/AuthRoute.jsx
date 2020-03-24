@@ -15,7 +15,7 @@ const AuthRoute = ({ component: Component, ...rest }) => (
   />
 );
 AuthRoute.propTypes = {
-  component: PropTypes.objectOf(PropTypes.object).isRequired,
+  component: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default AuthRoute;
