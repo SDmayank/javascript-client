@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import { PrivateRoute, AuthRoute } from './routes/index';
 import {
-  TextfieldDemo, InputDemo, ChildrenDemo, Trainee, NotFound, Login,
+  TextfieldDemo, InputDemo, ChildrenDemo, TraineeRoutes, NotFound, Login,
 } from './Pages';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
           <Redirect to="/trainee" />
         </Route>
         <AuthRoute exact path="/login" component={Login} />
-        <PrivateRoute path="/trainee" component={Trainee} />
+        <PrivateRoute path="/trainee" component={TraineeRoutes} />
         <PrivateRoute exact path="/text-field-demo" component={TextfieldDemo} />
         <PrivateRoute exact path="/input-demo" component={InputDemo} />
         <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
