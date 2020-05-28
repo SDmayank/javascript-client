@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 import React, { Component, Fragment } from 'react';
