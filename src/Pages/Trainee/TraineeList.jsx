@@ -109,8 +109,8 @@ class Trainee extends Component {
               {
                 field: 'email',
                 label: 'Email Address',
-                // align: 'center',
-                // Format: (value) => value && value.toUpperCase,
+                align: 'center',
+                Format: (value) => value && value.toUpperCase(),
               },
               {
                 field: 'Date',
