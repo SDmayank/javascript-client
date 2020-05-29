@@ -1,15 +1,20 @@
 /* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
-import React, { Component, Fragment } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable react/no-unused-state */
+import React, { Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
 import {
   Link,
 } from 'react-router-dom';
-import { AddDialog, TraineeTable } from './component';
+import {
+  AddDialog, TraineeTable, EditOpenDialog, DeleteOpenDialog,
+} from './component';
 import trainees from './data/trainee';
 
 
@@ -38,7 +43,7 @@ const useStyles = (theme) => ({
   },
 });
 
-class Trainee extends Component {
+class Trainee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,7 +51,43 @@ class Trainee extends Component {
       selected: '',
       orderBy: '',
       order: '',
+      EditOpen: false,
+      DelOpen: false,
+      page: 0,
+      rowsPerPage: 5,
+      editData: {},
+      deleteData: {},
     };
+  }
+
+
+  openDialog = (status) => {
+    this.setState({ open: status });
+  }
+
+  handleClose = () => {
+    console.log('mayank');
+    this.setState({ EditOpen: false });
+  }
+
+  handleEditClick = (name, email) => {
+    console.log('mayank');
+    this.setState({ EditOpen: false });
+    console.log('Created Trainee', name, email);
+  }
+
+  handleEditDialogOpen = (data) => {
+    this.setState({ EditOpen: true, editData: data }, () => {
+
+    });
+  }
+
+  handleRemoveDialogOpen = (data) => {
+    this.setState({ DelOpen: true, deleteData: data }, () => { console.log(this.state); });
+  }
+
+  handleDeleteClick = (data) => {
+    this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
   }
 
   onSortHandle = (field) => () => {
@@ -61,7 +102,23 @@ class Trainee extends Component {
     this.setState({ selected: event.target.value }, () => console.log(data));
   };
 
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: event.target.value,
+      page: 0,
+
+    });
+  };
+
+
   getFormattedDate = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+
 
   onOpen = () => {
     let { open } = this.state;
@@ -85,7 +142,10 @@ class Trainee extends Component {
 
 
   render() {
-    const { open, order, orderBy } = this.state;
+    const {
+      orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData,
+    } = this.state;
+
     const { match: { url } } = this.props;
     const { classes } = this.props;
     return (
@@ -109,8 +169,8 @@ class Trainee extends Component {
               {
                 field: 'email',
                 label: 'Email Address',
-                // align: 'center',
-                // Format: (value) => value && value.toUpperCase,
+                align: 'center',
+                Format: (value) => value && value.toUpperCase(),
               },
               {
                 field: 'Date',
@@ -120,10 +180,39 @@ class Trainee extends Component {
               },
             ]
           }
+          actions={
+            [{
+              icon: <EditIcon />,
+              handler: this.handleEditDialogOpen,
+            },
+            {
+              icon: <DeleteIcon />,
+              handler: this.handleRemoveDialogOpen,
+            }]
+          }
+
           orderBy={orderBy}
           order={order}
           onSort={this.onSortHandle}
           onSelect={this.handleSelect}
+          count={100}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          onChangePage={this.handleChangePage}
+
+        />
+        <EditOpenDialog
+          data={editData}
+          onClose={this.handleClose}
+          onSubmit={this.handleEditClick}
+          open={EditOpen}
+        />
+        <DeleteOpenDialog
+          data={deleteData}
+          onClose={this.handleDeleteClick}
+          onSubmit={this.handleDeleteClick}
+          open={DelOpen}
         />
         <ul>
           {
@@ -141,13 +230,14 @@ class Trainee extends Component {
   }
 }
 
-Trainee.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']),
-  orderBy: PropTypes.string,
-};
 Trainee.defaultProps = {
   orderBy: '',
   order: 'asc',
 };
+Trainee.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  order: PropTypes.string,
+  orderBy: PropTypes.string,
+};
+
 export default withStyles(useStyles)(Trainee);

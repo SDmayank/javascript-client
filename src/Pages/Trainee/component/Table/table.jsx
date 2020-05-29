@@ -1,19 +1,20 @@
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+import { Table, TableSortLabel, Button } from '@material-ui/core';
 import {
   makeStyles, withStyles,
 } from '@material-ui/core/styles';
-
-// import * as moment from 'moment';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TablePagination from '@material-ui/core/TablePagination';
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -43,7 +44,12 @@ const useStyles = makeStyles((theme) => ({
 
 function TraineeTable(props) {
   const {
-    id, data, columns, order, orderBy, onSort, onSelect,
+    id,
+    data,
+    columns, order,
+    orderBy, onSort,
+    onSelect, actions,
+    count, rowsPerPage, page, onChangePage, onChangeRowsPerPage,
   } = props;
   const classes = useStyles();
 
@@ -72,31 +78,53 @@ function TraineeTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.length && data.map((element) => (
+          {(rowsPerPage > 0
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
+          ).map((element) => (
 
             <StyledTableRow
               hover
               onClick={(event) => onSelect(event, element)}
               key={element[id]}
+              actions={actions}
             >
               <Fragment key={element.id}>
                 {
-                  columns && columns.length && columns.map(({ field, align, Format }) => (
+                  columns && columns.length && columns.map(({
+                    field, align, Format,
+                  }) => (
                     <TableCell
                       align={align}
                       format={Format}
+                      x
                       component="th"
                       scope="row"
                     >
                       {Format ? Format(element[field]) : element[field]}
-                      {/* {element[field]} */}
+
                     </TableCell>
                   ))
                 }
+                <div>
+                  {actions && actions.length && actions.map(({ icon, handler }) => (
+                    <Button onClick={() => handler(element)}>
+                      {icon}
+                    </Button>
+                  ))}
+                </div>
               </Fragment>
             </StyledTableRow>
           ))}
         </TableBody>
+        <TablePagination
+          rowsPerPageOptions={[3, 5, 10, 15, 100]}
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={onChangePage}
+          onChangeRowsPerPage={onChangeRowsPerPage}
+        />
 
       </Table>
     </TableContainer>
@@ -117,7 +145,7 @@ TraineeTable.propTypes = {
   onSort: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   orderBy: PropTypes.string,
-  order: PropTypes.oneOf(['asc', 'desc']),
+  order: PropTypes.string,
 };
 TraineeTable.defaultProps = {
   orderBy: '',
