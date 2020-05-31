@@ -1,7 +1,11 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import * as moment from 'moment';
 import {
   Link,
 } from 'react-router-dom';
@@ -39,9 +43,25 @@ class Trainee extends Component {
     super(props);
     this.state = {
       open: false,
-
+      selected: '',
+      orderBy: '',
+      order: '',
     };
   }
+
+  onSortHandle = (field) => () => {
+    const { order } = this.state;
+    this.setState({
+      orderBy: field,
+      order: order === 'asc' ? 'desc' : 'asc',
+    });
+  }
+
+  handleSelect = (event, data) => {
+    this.setState({ selected: event.target.value }, () => console.log(data));
+  };
+
+  getFormattedDate = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
 
   onOpen = () => {
     let { open } = this.state;
@@ -63,8 +83,9 @@ class Trainee extends Component {
     return open;
   }
 
+
   render() {
-    const { open } = this.state;
+    const { open, order, orderBy } = this.state;
     const { match: { url } } = this.props;
     const { classes } = this.props;
     return (
@@ -89,9 +110,20 @@ class Trainee extends Component {
                 field: 'email',
                 label: 'Email Address',
                 align: 'center',
+                Format: (value) => value && value.toUpperCase(),
+              },
+              {
+                field: 'Date',
+                label: 'Date',
+                aligin: 'right',
+                Format: this.getFormattedDate,
               },
             ]
           }
+          orderBy={orderBy}
+          order={order}
+          onSort={this.onSortHandle}
+          onSelect={this.handleSelect}
         />
         <ul>
           {
@@ -109,4 +141,13 @@ class Trainee extends Component {
   }
 }
 
+Trainee.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']),
+  orderBy: PropTypes.string,
+};
+Trainee.defaultProps = {
+  orderBy: '',
+  order: 'asc',
+};
 export default withStyles(useStyles)(Trainee);
