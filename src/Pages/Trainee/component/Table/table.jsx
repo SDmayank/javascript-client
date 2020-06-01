@@ -51,6 +51,10 @@ function TraineeTable(props) {
     onSelect, actions,
     count, rowsPerPage, page, onChangePage, onChangeRowsPerPage,
   } = props;
+  const createSortHandler = (property) => (event) => {
+    onSort(event, property);
+  };
+
   const classes = useStyles();
 
   return (
@@ -66,7 +70,7 @@ function TraineeTable(props) {
                     align={align}
                     active={orderBy === field}
                     direction={orderBy === field ? order : 'asc'}
-                    onClick={onSort(field)}
+                    onClick={createSortHandler(field)}
 
                   >
                     {console.log('order', order, 'orderBy', orderBy)}
@@ -144,7 +148,7 @@ TraineeTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSort: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  orderBy: PropTypes.string,
+  orderBy: PropTypes.objectOf,
   order: PropTypes.string,
 };
 TraineeTable.defaultProps = {

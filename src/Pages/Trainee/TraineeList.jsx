@@ -90,13 +90,23 @@ class Trainee extends React.Component {
     this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
   }
 
-  onSortHandle = (field) => () => {
-    const { order } = this.state;
-    this.setState({
-      orderBy: field,
-      order: order === 'asc' ? 'desc' : 'asc',
-    });
-  }
+  // onSortHandle = (field) => () => {
+  //   const { order, orderBy } = this.state;
+  //   this.setState({
+  //     orderBy: field,
+  //     order: order === 'asc' ? 'desc' : 'asc',
+  //   });
+  // }
+  onSortHandle = (event, property) => {
+    const { order, orderBy } = this.state;
+    const isAsc = orderBy === property && order === 'asc';
+    if (isAsc) {
+      this.setState({ order: 'desc', orderBy: property });
+    } else {
+      console.log('befoire', isAsc);
+      this.setState({ order: 'asc', orderBy: property });
+    }
+  };
 
   handleSelect = (event, data) => {
     this.setState({ selected: event.target.value }, () => console.log(data));
@@ -237,7 +247,7 @@ Trainee.defaultProps = {
 Trainee.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   order: PropTypes.string,
-  orderBy: PropTypes.string,
+  orderBy: PropTypes.objectOf(PropTypes.string),
 };
 
 export default withStyles(useStyles)(Trainee);
