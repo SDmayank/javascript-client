@@ -90,13 +90,6 @@ class Trainee extends React.Component {
     this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
   }
 
-  // onSortHandle = (field) => () => {
-  //   const { order, orderBy } = this.state;
-  //   this.setState({
-  //     orderBy: field,
-  //     order: order === 'asc' ? 'desc' : 'asc',
-  //   });
-  // }
   onSortHandle = (event, property) => {
     const { order, orderBy } = this.state;
     const isAsc = orderBy === property && order === 'asc';
