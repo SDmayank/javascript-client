@@ -90,7 +90,7 @@ export default class EditOpenDialog extends Component {
     const { name, email } = this.state;
     return (
       <div>
-        <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title" fullwidth>
+        <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>

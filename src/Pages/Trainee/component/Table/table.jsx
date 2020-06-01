@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Table, TableSortLabel, Button } from '@material-ui/core';
+import propTypes from 'prop-types';
+import { Table, TableSortLabel } from '@material-ui/core';
 import {
   makeStyles, withStyles,
 } from '@material-ui/core/styles';
@@ -15,19 +14,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    '&:hover': {
-      background: '#B6B6B4',
-      cursor: 'pointer',
-    },
-  },
-}))(TableRow);
-
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,6 +27,18 @@ const useStyles = makeStyles((theme) => ({
     color: 'grey',
   },
 }));
+
+const StyledTableRow = withStyles(() => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: '#F5F5F5',
+    },
+    '&:hover': {
+      background: '#D3D3D3',
+      cursor: 'pointer',
+    },
+  },
+}))(TableRow);
 
 function TraineeTable(props) {
   const {
@@ -60,12 +58,12 @@ function TraineeTable(props) {
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="simple table">
-
         <TableHead>
-          <TableRow hover>
+          <TableRow>
             {
               columns && columns.length && columns.map(({ label, align, field }) => (
                 <TableCell align={align} className={classes.column}>
+
                   <TableSortLabel
                     align={align}
                     active={orderBy === field}
@@ -76,9 +74,11 @@ function TraineeTable(props) {
                     {console.log('order', order, 'orderBy', orderBy)}
                     {label}
                   </TableSortLabel>
+
                 </TableCell>
               ))
             }
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -88,7 +88,6 @@ function TraineeTable(props) {
           ).map((element) => (
 
             <StyledTableRow
-              hover
               onClick={(event) => onSelect(event, element)}
               key={element[id]}
               actions={actions}
@@ -110,13 +109,20 @@ function TraineeTable(props) {
                     </TableCell>
                   ))
                 }
-                <div>
-                  {actions && actions.length && actions.map(({ icon, handler }) => (
-                    <Button onClick={() => handler(element)}>
-                      {icon}
-                    </Button>
+                <TableCell>
+                  {actions && actions.length && actions.map(({ icon, handler, align }) => (
+                    // eslint-disable-next-line react/jsx-no-comment-textnodes
+                    <div>
+                      <div
+
+                        align={align}
+                        onClick={() => handler(element)}
+                      >
+                        {icon}
+                      </div>
+                    </div>
                   ))}
-                </div>
+                </TableCell>
               </Fragment>
             </StyledTableRow>
           ))}
@@ -136,24 +142,26 @@ function TraineeTable(props) {
 }
 
 TraineeTable.propTypes = {
+  id: propTypes.string.isRequired,
+  data: propTypes.arrayOf(propTypes.object).isRequired,
+  columns: propTypes.arrayOf(propTypes.object).isRequired,
+  actions: propTypes.arrayOf(propTypes.object).isRequired,
+  order: propTypes.string,
+  orderBy: propTypes.string,
+  onSort: propTypes.func.isRequired,
+  onSelect: propTypes.func.isRequired,
+  count: propTypes.number.isRequired,
+  page: propTypes.number,
+  onChangePage: propTypes.func.isRequired,
+  rowsPerPage: propTypes.number,
+  onChangeRowsPerPage: propTypes.func.isRequired,
 
-  id: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-TraineeTable.propTypes = {
-  id: PropTypes.string.isRequired,
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSort: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  orderBy: PropTypes.objectOf,
-  order: PropTypes.string,
 };
 TraineeTable.defaultProps = {
-  orderBy: '',
   order: 'asc',
+  orderBy: '',
+  page: 0,
+  rowsPerPage: 100,
 };
 
 export default TraineeTable;
