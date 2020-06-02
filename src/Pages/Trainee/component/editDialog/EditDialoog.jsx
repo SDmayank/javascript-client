@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import * as yup from 'yup';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,19 +11,46 @@ import EmailIcon from '@material-ui/icons/Email';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import { MyContext } from '../../../../contexts';
 
+const schema = yup.object().shape({
+  name: yup.string().required('Name is required').min(3),
+  email: yup.string().email().required('Email is required'),
+});
 
-export default class EditOpenDialog extends Component {
+export default class EditOpenDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
+      Name: '',
+      Email: '',
       touched: {
         name: false,
         email: false,
       },
     };
+  }
+
+  getError = (validateField) => {
+    const { touched } = this.state;
+    if (touched[validateField] && this.hasErrors()) {
+      try {
+        schema.validateSyncAt(validateField, this.state);
+        return '';
+      } catch (err) {
+        return String(err.errors);
+      }
+    }
+    return '';
+  };
+
+  hasErrors = () => {
+    try {
+      schema.validateSync(this.state);
+    } catch (err) {
+      return true;
+    }
+    return false;
   }
 
   handleNameChange = (event) => {
@@ -90,7 +118,7 @@ export default class EditOpenDialog extends Component {
     const { name, email } = this.state;
     return (
       <div>
-        <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title" fullwidth>
+        <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
@@ -106,6 +134,8 @@ export default class EditOpenDialog extends Component {
                   type="name"
                   onBlur={() => this.isTouched('name')}
                   fullWidth
+                  helperText={this.getError('name')}
+                  error={!!this.getError('name')}
                   InputProps={{
                     startAdornment: <InputAdornment position="start"><PersonIcon /></InputAdornment>,
                   }}
@@ -123,6 +153,8 @@ export default class EditOpenDialog extends Component {
                   label="Email Address"
                   type="email"
                   onBlur={() => this.isTouched('email')}
+                  helperText={this.getError('email')}
+                  error={!!this.getError('email')}
                   fullWidth
                   InputProps={{
                     startAdornment: <InputAdornment position="start"><EmailIcon /></InputAdornment>,
@@ -136,12 +168,23 @@ export default class EditOpenDialog extends Component {
             <Button onClick={onClose} color="primary">
               Cancel
             </Button>
-            <Button
-              onClick={() => { onSubmit({ name, email }); this.formReset(); }}
-              color="primary"
-            >
-              Submit
-            </Button>
+            <MyContext.Consumer>
+              {(value) => (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={this.hasErrors()}
+                    onClick={() => {
+                      onSubmit({ name, email }); this.formReset();
+                      value.openSnackBar('This is a success message ! ', 'success');
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </>
+              )}
+            </MyContext.Consumer>
           </DialogActions>
         </Dialog>
       </div>
