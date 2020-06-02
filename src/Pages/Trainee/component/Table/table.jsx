@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Fragment } from 'react';
 import propTypes from 'prop-types';
 import { Table, TableSortLabel } from '@material-ui/core';
@@ -14,6 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
+import TableFooter from '@material-ui/core/TableFooter';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -69,7 +70,6 @@ function TraineeTable(props) {
                     active={orderBy === field}
                     direction={orderBy === field ? order : 'asc'}
                     onClick={createSortHandler(field)}
-
                   >
                     {console.log('order', order, 'orderBy', orderBy)}
                     {label}
@@ -99,8 +99,6 @@ function TraineeTable(props) {
                   }) => (
                     <TableCell
                       align={align}
-                      format={Format}
-                      x
                       component="th"
                       scope="row"
                     >
@@ -127,14 +125,22 @@ function TraineeTable(props) {
             </StyledTableRow>
           ))}
         </TableBody>
-        <TablePagination
-          rowsPerPageOptions={[3, 5, 10, 15, 100]}
-          count={count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={onChangePage}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-        />
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[3, 5, 7, 10, 15, 25, 100, { label: 'All', value: -1 }]}
+              count={count}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={onChangePage}
+              onChangeRowsPerPage={onChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
 
       </Table>
     </TableContainer>
@@ -147,7 +153,7 @@ TraineeTable.propTypes = {
   columns: propTypes.arrayOf(propTypes.object).isRequired,
   actions: propTypes.arrayOf(propTypes.object).isRequired,
   order: propTypes.string,
-  orderBy: propTypes.string,
+  orderBy: propTypes.string.isRequired,
   onSort: propTypes.func.isRequired,
   onSelect: propTypes.func.isRequired,
   count: propTypes.number.isRequired,
@@ -156,10 +162,10 @@ TraineeTable.propTypes = {
   rowsPerPage: propTypes.number,
   onChangeRowsPerPage: propTypes.func.isRequired,
 
+
 };
 TraineeTable.defaultProps = {
   order: 'asc',
-  orderBy: '',
   page: 0,
   rowsPerPage: 100,
 };

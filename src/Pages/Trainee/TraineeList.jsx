@@ -233,15 +233,9 @@ class Trainee extends React.Component {
   }
 }
 
-Trainee.defaultProps = {
-  orderBy: '',
-  order: 'asc',
-};
 Trainee.propTypes = {
   match: propTypes.objectOf(propTypes.any).isRequired,
   classes: propTypes.objectOf(propTypes.any).isRequired,
-  order: propTypes.string,
-  orderBy: propTypes.objectOf,
 };
 
 export default withStyles(useStyles)(Trainee);
