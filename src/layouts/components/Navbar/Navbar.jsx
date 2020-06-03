@@ -50,9 +50,11 @@ export default function Navbar() {
                 >
                   {key}
                 </Button>
+
               ))
             }
           </div>
+          <Button component={Link} to="/login" color="inherit" onClick={() => { localStorage.removeItem('Token'); }}>Log Out</Button>
         </Toolbar>
       </AppBar>
     </div>
