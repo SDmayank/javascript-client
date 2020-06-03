@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
