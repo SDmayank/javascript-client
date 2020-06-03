@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 export default class DeleteOpenDialog extends Component {
   constructor(props) {
@@ -54,8 +54,8 @@ export default class DeleteOpenDialog extends Component {
 }
 
 DeleteOpenDialog.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  data: PropTypes.objectOf(PropTypes.string).isRequired,
+  open: propTypes.bool.isRequired,
+  onClose: propTypes.func.isRequired,
+  onSubmit: propTypes.func.isRequired,
+  data: propTypes.objectOf(propTypes.string).isRequired,
 };
