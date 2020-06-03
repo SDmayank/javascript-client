@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from '@material-ui/core/TableFooter';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -110,15 +111,9 @@ function TraineeTable(props) {
                 <TableCell>
                   {actions && actions.length && actions.map(({ icon, handler, align }) => (
                     // eslint-disable-next-line react/jsx-no-comment-textnodes
-                    <div>
-                      <div
-
-                        align={align}
-                        onClick={() => handler(element)}
-                      >
-                        {icon}
-                      </div>
-                    </div>
+                    <Button onClick={() => { handler(data); }}>
+                      {icon}
+                    </Button>
                   ))}
                 </TableCell>
               </Fragment>
