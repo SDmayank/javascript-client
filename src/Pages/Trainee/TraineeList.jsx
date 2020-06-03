@@ -1,13 +1,11 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/prop-types */
 /* eslint-disable no-console */
-/* eslint-disable react/no-unused-state */
+/* eslint-disable react/no-unused-prop-types */
 import React, { Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import * as moment from 'moment';
 import {
   Link,
@@ -90,13 +88,16 @@ class Trainee extends React.Component {
     this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
   }
 
-  onSortHandle = (field) => () => {
-    const { order } = this.state;
-    this.setState({
-      orderBy: field,
-      order: order === 'asc' ? 'desc' : 'asc',
-    });
-  }
+  onSortHandle = (event, property) => {
+    const { order, orderBy } = this.state;
+    const isAsc = orderBy === property && order === 'asc';
+    if (isAsc) {
+      this.setState({ order: 'desc', orderBy: property });
+    } else {
+      console.log('befoire', isAsc);
+      this.setState({ order: 'asc', orderBy: property });
+    }
+  };
 
   handleSelect = (event, data) => {
     this.setState({ selected: event.target.value }, () => console.log(data));
@@ -184,10 +185,12 @@ class Trainee extends React.Component {
             [{
               icon: <EditIcon />,
               handler: this.handleEditDialogOpen,
+              aligin: 'left',
             },
             {
               icon: <DeleteIcon />,
               handler: this.handleRemoveDialogOpen,
+              aligin: 'left',
             }]
           }
 
@@ -230,14 +233,9 @@ class Trainee extends React.Component {
   }
 }
 
-Trainee.defaultProps = {
-  orderBy: '',
-  order: 'asc',
-};
 Trainee.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  order: PropTypes.string,
-  orderBy: PropTypes.string,
+  match: propTypes.objectOf(propTypes.any).isRequired,
+  classes: propTypes.objectOf(propTypes.any).isRequired,
 };
 
 export default withStyles(useStyles)(Trainee);
