@@ -55,11 +55,12 @@ class Trainee extends React.Component {
       EditOpen: false,
       DelOpen: false,
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 20,
       editData: {},
       deleteData: {},
       tableData: '',
       loading: false,
+      count: '',
     };
   }
 
@@ -135,6 +136,7 @@ class Trainee extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
+    console.log('handle change page',newPage)
     const { rowsPerPage } = this.state;
     this.setState({ page: newPage, loading: true }, async () => {
       const response = await callApi('get', 'trainee', {
@@ -178,7 +180,7 @@ class Trainee extends React.Component {
 
   render() {
     const {
-      orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData, loading, tableData,
+      orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData, loading, tableData, count,
     } = this.state;
 
     const { match: { url } } = this.props;
@@ -232,7 +234,7 @@ class Trainee extends React.Component {
           order={order}
           onSort={this.onSortHandle}
           onSelect={this.handleSelect}
-          count={100}
+          count={count}
           page={page}
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={this.handleChangePage}

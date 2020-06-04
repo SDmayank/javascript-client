@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 async function callApi(method, url, data) {
-  console.log('in API', method, url, data)
   const completeUrl = process.env.REACT_APP_BASE_URL + url;
   try {
     const response = await axios({
