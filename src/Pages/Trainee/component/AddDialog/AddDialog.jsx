@@ -4,6 +4,10 @@ import {
   withStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Button,
 } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import callApi from '../../../../libs/utils/api';
+
+import { MyContext } from '../../../../contexts/index';
 import { schema, icons } from '../../../../config/constant';
 import styles from './style';
 import validKey from '../DialogComponents';
@@ -16,6 +20,7 @@ class AddDialog extends React.Component {
       Name: '',
       Email: '',
       Password: '',
+      loading: false,
       confirmPassword: '',
       touched: {
         name: false,
@@ -59,15 +64,48 @@ class AddDialog extends React.Component {
     });
   }
 
+  resetForm = () => {
+    if (JSON.stringify(this.state) !== JSON.stringify(this.baseState)) {
+      this.setState(this.baseState);
+    }
+  }
+
   handleChange = (key) => ({ target: { value } }) => {
     this.setState({ [key]: value });
   }
 
+  fetchData = (value) => {
+    const {
+      name, email, password,
+      confirmPassword,
+    } = this.state;
+    const { onSubmit } = this.props;
+    this.setState({ loading: true }, async () => {
+      const response = await callApi('post', 'trainee', {
+        name,
+        email,
+        password,
+      });
+      this.setState({ loading: false }, () => {
+        if (response.status === 'ok') {
+          onSubmit()('open', {
+            name, email, password, confirmPassword,
+          });
+          this.resetForm();
+          value.openSnackBar(response.message, 'success');
+        } else {
+          value.openSnackBar(response.message, response.status);
+        }
+      });
+    });
+  }
+
+
   render() {
     const {
-      open, onClose, onSubmit, classes,
+      open, onClose, classes,
     } = this.props;
-    const { name, email, password } = this.state;
+    const { loading } = this.state;
     const result = Object.keys(icons).map((key) => (
       <Fields
         helperText={this.getError(key)}
@@ -111,15 +149,25 @@ class AddDialog extends React.Component {
             <Button onClick={onClose} color="primary">
               CANCEL
             </Button>
-            <Button
-              onClick={() => onSubmit()({
-                name, email, password,
-              })}
-              color="primary"
-              disabled={this.hasErrors()}
-            >
-              SUBMIT
-            </Button>
+            <MyContext.Consumer>
+              {(value) => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  disabled={loading || this.hasErrors()}
+                  onClick={() => {
+                    this.fetchData(value);
+                  }}
+                >
+                  {loading && (
+                    <CircularProgress color="secondary" />
+                  )}
+                  {loading && <span> Adding....</span>}
+                  {!loading && <span>Submit</span>}
+                </Button>
+              )}
+            </MyContext.Consumer>
           </DialogActions>
         </Dialog>
       </>

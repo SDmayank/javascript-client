@@ -2,16 +2,21 @@
 import axios from 'axios';
 
 async function callApi(method, url, data) {
+  console.log('in API', method, url, data)
   const completeUrl = process.env.REACT_APP_BASE_URL + url;
   try {
     const response = await axios({
       method,
       url: completeUrl,
-      data,
+      data: { ...data },
+      params: { ...data },
+      headers: {
+        authorization: localStorage.getItem('Token'),
+      },
     });
     return response.data;
   } catch (error) {
-    return { status: 'error', message: 'This is a error message' };
+    return { status: 'error', message: error.message };
   }
 }
 

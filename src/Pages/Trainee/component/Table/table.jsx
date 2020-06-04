@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from '@material-ui/core/TableFooter';
 import Button from '@material-ui/core/Button';
+import { withLoaderAndMessage } from '../../../../component';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,10 +84,7 @@ function TraineeTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : data
-          ).map((element) => (
+          {data && data.length && data.map((element) => (
 
             <StyledTableRow
               onClick={(event) => onSelect(event, element)}
@@ -125,7 +123,7 @@ function TraineeTable(props) {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[3, 5, 7, 10, 15, 25, 100, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 15, 25, 100, { label: 'All', value: -1 }]}
               count={count}
               SelectProps={{
                 inputProps: { 'aria-label': 'rows per page' },
@@ -167,4 +165,5 @@ TraineeTable.defaultProps = {
   rowsPerPage: 100,
 };
 
-export default TraineeTable;
+
+export default withLoaderAndMessage(TraineeTable);
