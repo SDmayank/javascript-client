@@ -25,7 +25,7 @@ const useStyles = (theme) => ({
   },
   buttonPosition: {
     display: 'flex',
-    
+
     justifyContent: 'flex-end',
   },
   paper: {
@@ -56,7 +56,7 @@ class Trainee extends React.Component {
       EditOpen: false,
       DelOpen: false,
       page: 0,
-      rowsPerPage: 20,
+      rowsPerPage: 5,
       editData: {},
       deleteData: {},
       tableData: '',
@@ -106,7 +106,7 @@ class Trainee extends React.Component {
 
   onSubmit = (state, data) => {
     const { page } = this.state;
-    console.log('page', page);
+    console.log('page', page,state);
     this.setState({ [state]: false, data: {} }, (event) => {
       this.handleChangePage(event, page);
       console.log('Data Submitted', data);
@@ -146,6 +146,17 @@ class Trainee extends React.Component {
   handleChangePage = (event, newPage) => {
     this.setState({
       page: newPage,
+    });
+  };
+
+  onChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: event.target.value,
+      page: 0,
+
+    }, () => {
+      const { page } = this.state;
+      this.handleChangePage(event, page);
     });
   };
 
@@ -242,7 +253,7 @@ class Trainee extends React.Component {
           count={count}
           page={page}
           rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={this.handleChangePage}
+          onChangeRowsPerPage={this.onChangeRowsPerPage}
           onChangePage={this.handleChangePage}
           loading={loading}
           dataLength={tableData.length}

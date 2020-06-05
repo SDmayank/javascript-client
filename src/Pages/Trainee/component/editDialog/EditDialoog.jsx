@@ -124,7 +124,7 @@ export default class EditOpenDialog extends React.Component {
       });
       this.setState({ loading: false }, () => {
         if (response.status === 'ok') {
-          onSubmit()('EditOpen  ', {
+          onSubmit()('EditOpen', {
             name, email,
           });
           this.formReset();
