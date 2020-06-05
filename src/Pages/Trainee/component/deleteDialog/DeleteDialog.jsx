@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -27,7 +28,6 @@ export default class DeleteOpenDialog extends Component {
   };
 
   handleSnackBarMessage = (data, openSnackBar) => {
-    console.log('sfdsfdsfasajdg');
     const date = '2019-02-14T18:15:11.778Z';
     const isAfter = (moment(data.Date).isAfter(date));
     if (isAfter) {
