@@ -25,6 +25,7 @@ const useStyles = (theme) => ({
   },
   buttonPosition: {
     display: 'flex',
+    
     justifyContent: 'flex-end',
   },
   paper: {
@@ -90,14 +91,7 @@ class Trainee extends React.Component {
   }
 
   handleClose = () => {
-    console.log('mayank');
     this.setState({ EditOpen: false });
-  }
-
-  handleEditClick = (name, email) => {
-    console.log('mayank');
-    this.setState({ EditOpen: false });
-    console.log('Created Trainee', name, email);
   }
 
   handleEditDialogOpen = (data) => {
@@ -110,8 +104,28 @@ class Trainee extends React.Component {
     this.setState({ DelOpen: true, deleteData: data }, () => { console.log(this.state); });
   }
 
+  onSubmit = (state, data) => {
+    const { page } = this.state;
+    console.log('page', page);
+    this.setState({ [state]: false, data: {} }, (event) => {
+      this.handleChangePage(event, page);
+      console.log('Data Submitted', data);
+    });
+    return true;
+  }
+
   handleDeleteClick = (data) => {
-    this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
+    const { rowsPerPage, count, page } = this.state;
+    console.log('handleDeleteClick', rowsPerPage, count, page);
+    const result = count - (page * rowsPerPage);
+    this.setState({ openDelete: false, data: {} }, (event) => {
+      console.log('Data Submitted', data);
+      if (result === 1) {
+        this.handleChangePage(event, (page - 1));
+      } else {
+        this.handleChangePage(event, (page));
+      }
+    });
   }
 
   onSortHandle = (event, property) => {
@@ -136,7 +150,6 @@ class Trainee extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    console.log('handle change page',newPage)
     const { rowsPerPage } = this.state;
     this.setState({ page: newPage, loading: true }, async () => {
       const response = await callApi('get', 'trainee', {
@@ -164,18 +177,10 @@ class Trainee extends React.Component {
   };
 
   onClose = () => {
-    let { open } = this.state;
-    open = false;
-    this.setState({ open });
+    let { DelOpen } = this.state;
+    DelOpen = false;
+    this.setState({ DelOpen });
   };
-
-  onSubmit = (data) => {
-    const { open } = this.state;
-    this.setState({ open: false }, () => {
-      console.log(data);
-    });
-    return open;
-  }
 
 
   render() {
@@ -246,12 +251,12 @@ class Trainee extends React.Component {
         <EditOpenDialog
           data={editData}
           onClose={this.handleClose}
-          onSubmit={this.handleEditClick}
+          onSubmit={() => this.onSubmit}
           open={EditOpen}
         />
         <DeleteOpenDialog
           data={deleteData}
-          onClose={this.handleDeleteClick}
+          onClose={this.onClose}
           onSubmit={this.handleDeleteClick}
           open={DelOpen}
         />
