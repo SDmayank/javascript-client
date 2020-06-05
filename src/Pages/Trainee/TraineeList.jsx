@@ -156,7 +156,7 @@ class Trainee extends React.Component {
             ADD TRAINEEList
           </Button>
         </div>
-        <AddDialog open={open} onClose={this.onClose} onSubmit={() => this.onSubmit} />
+        <AddDialog open={open} onClose={this.onClose} onSubmit={this.onSubmit} />
         <TraineeTable
           id="id"
           data={trainees}

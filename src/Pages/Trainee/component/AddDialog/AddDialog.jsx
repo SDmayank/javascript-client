@@ -8,6 +8,7 @@ import { schema, icons } from '../../../../config/constant';
 import styles from './style';
 import validKey from '../DialogComponents';
 import Fields from '../../../mainComponent';
+import { MyContext } from '../../../../contexts';
 
 class AddDialog extends React.Component {
   constructor(props) {
@@ -56,6 +57,14 @@ class AddDialog extends React.Component {
         ...touched,
         [field]: true,
       },
+    });
+  }
+
+  formReset = () => {
+    this.setState({
+      name: '',
+      email: '',
+      touched: {},
     });
   }
 
@@ -111,15 +120,23 @@ class AddDialog extends React.Component {
             <Button onClick={onClose} color="primary">
               CANCEL
             </Button>
-            <Button
-              onClick={() => onSubmit()({
-                name, email, password,
-              })}
-              color="primary"
-              disabled={this.hasErrors()}
-            >
-              SUBMIT
-            </Button>
+            <MyContext.Consumer>
+              {(value) => (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={this.hasErrors()}
+                    onClick={() => {
+                      onSubmit({ name, email, password }); this.formReset();
+                      value.openSnackBar('This is a success message ! ', 'success');
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </>
+              )}
+            </MyContext.Consumer>
           </DialogActions>
         </Dialog>
       </>
