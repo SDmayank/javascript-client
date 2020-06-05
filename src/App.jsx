@@ -6,21 +6,26 @@ import { PrivateRoute, AuthRoute } from './routes/index';
 import {
   TextfieldDemo, InputDemo, ChildrenDemo, TraineeRoutes, NotFound, Login,
 } from './Pages';
+import { SnackBarProvider } from './contexts'
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <Redirect to="/trainee" />
-        </Route>
-        <AuthRoute exact path="/login" component={Login} />
-        <PrivateRoute path="/trainee" component={TraineeRoutes} />
-        <PrivateRoute exact path="/text-field-demo" component={TextfieldDemo} />
-        <PrivateRoute exact path="/input-demo" component={InputDemo} />
-        <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-        <PrivateRoute component={NotFound} />
-      </Switch>
+      <div>
+        <SnackBarProvider>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/trainee" />
+            </Route>
+            <AuthRoute exact path="/login" component={Login} />
+            <PrivateRoute path="/trainee" component={TraineeRoutes} />
+            <PrivateRoute exact path="/text-field-demo" component={TextfieldDemo} />
+            <PrivateRoute exact path="/input-demo" component={InputDemo} />
+            <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+            <PrivateRoute component={NotFound} />
+          </Switch>
+        </SnackBarProvider>
+      </div>
     </Router>
   );
 }

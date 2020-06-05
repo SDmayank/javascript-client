@@ -109,9 +109,8 @@ function TraineeTable(props) {
                   ))
                 }
                 <TableCell>
-                  {actions && actions.length && actions.map(({ icon, handler, align }) => (
-                    // eslint-disable-next-line react/jsx-no-comment-textnodes
-                    <Button onClick={() => { handler(data); }}>
+                  {actions && actions.length && actions.map(({ icon, handler }) => (
+                    <Button onClick={() => { handler(element); }}>
                       {icon}
                     </Button>
                   ))}
