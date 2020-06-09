@@ -7,11 +7,14 @@ import * as yup from 'yup';
 import { PropTypes } from 'prop-types';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 import { validKey } from '../Trainee';
 import Fields from '../mainComponent';
 import { loginIcons } from '../../config/constant';
+import callApi from '../../libs/utils/api';
+import { MyContext } from '../../contexts';
 
 
 const schema = yup.object().shape({
@@ -51,6 +54,8 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      loading: false,
+      fetchData: '',
       hasError: false,
       error: {
         email: '',
@@ -63,9 +68,34 @@ class Login extends Component {
     };
   }
 
+  fetchData = (value) => {
+    const { email, password } = this.state;
+
+    this.setState({ loading: true }, async () => {
+      const response = await callApi('post', 'user/login', {
+        email,
+        password,
+      });
+      this.setState({ loading: false }, () => {
+        if (response.status === 'ok') {
+          localStorage.setItem('Token', response.data);
+          const { history } = this.props;
+          history.push('/trainee');
+        } else {
+          value.openSnackBar(response.message, response.status);
+        }
+      });
+    });
+  }
+
   handleChange = (prop) => (event) => {
-    this.setState({ [prop]: event.target.value });
+    this.setState({ [prop]: event.target.value }); this.setState({
+      [prop]: event.target.value,
+    }, () => {
+      this.getError(prop);
+    });
   };
+
 
   hasErrors = () => {
     const { hasError } = this.state;
@@ -86,6 +116,8 @@ class Login extends Component {
         ...touched,
         [field]: true,
       },
+    }, () => {
+      this.getError(field);
     });
   }
 
@@ -117,7 +149,7 @@ class Login extends Component {
 
   render() {
     const {
-      hasError,
+      loading,
     } = this.state;
     this.hasErrors();
 
@@ -151,16 +183,24 @@ class Login extends Component {
 
                 ))
               }
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                disabled={hasError}
-              >
-                Sign In
-              </Button>
+              <MyContext.Consumer>
+                {(value) => (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={loading || this.hasErrors()}
+                    onClick={() => { this.fetchData(value); }}
+                  >
+                    {loading && (
+                      <CircularProgress color="secondary" />
+                    )}
+                    {loading && <span> Signing in...</span>}
+                    {!loading && <span>Sign in</span>}
+                  </Button>
+                )}
+              </MyContext.Consumer>
             </form>
           </div>
         </Box>
@@ -168,8 +208,11 @@ class Login extends Component {
     );
   }
 }
-Login.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-};
 
 export default withStyles(useStyles)(Login);
+
+Login.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+
+};

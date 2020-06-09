@@ -6,7 +6,7 @@ import { PrivateRoute, AuthRoute } from './routes/index';
 import {
   TextfieldDemo, InputDemo, ChildrenDemo, TraineeRoutes, NotFound, Login,
 } from './Pages';
-import { SnackBarProvider } from './contexts'
+import { SnackBarProvider } from './contexts';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <SnackBarProvider>
           <Switch>
             <Route exact path="/">
-              <Redirect to="/trainee" />
+              <Redirect to="/login" />
             </Route>
             <AuthRoute exact path="/login" component={Login} />
             <PrivateRoute path="/trainee" component={TraineeRoutes} />

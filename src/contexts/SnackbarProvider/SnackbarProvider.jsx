@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable import/no-unresolved */
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import propTypes from 'prop-types';
@@ -38,26 +37,27 @@ class SnackBarProvider extends React.Component {
       <>
         <MyContext.Provider
           value={{
-            state: { message, status, open },
             openSnackBar: this.handleSnackBar,
-            closeSnackBar: this.handleCloseSnackBar,
           }}
         >
           {children}
-          <CustomizedSnackbars />
         </MyContext.Provider>
+        <CustomizedSnackbars
+          message={message}
+          status={status}
+          open={open}
+          closeSnackBar={this.handleCloseSnackBar}
+        />
       </>
     );
   }
 }
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
-const CustomizedSnackbars = () => {
-  const value = React.useContext(MyContext);
-  const { closeSnackBar, state } = value;
+const CustomizedSnackbars = (props) => {
   const {
-    open, message, status,
-  } = state;
+    open, message, status, closeSnackBar,
+  } = props;
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -80,6 +80,12 @@ const CustomizedSnackbars = () => {
 
 SnackBarProvider.propTypes = {
   children: propTypes.element.isRequired,
+};
+CustomizedSnackbars.propTypes = {
+  open: propTypes.bool.isRequired,
+  closeSnackBar: propTypes.func.isRequired,
+  status: propTypes.string.isRequired,
+  message: propTypes.string.isRequired,
 };
 
 export { SnackBarProvider, MyContext };

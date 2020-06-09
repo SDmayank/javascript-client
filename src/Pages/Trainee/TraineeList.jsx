@@ -3,8 +3,8 @@
 import React, { Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import propTypes from 'prop-types';
 import * as moment from 'moment';
 import {

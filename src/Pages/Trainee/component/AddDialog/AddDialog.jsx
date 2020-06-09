@@ -62,14 +62,11 @@ class AddDialog extends React.Component {
 
   formReset = () => {
     this.setState({
-      Name: '',
-      Email: '',
-      Password: '',
-      confirmPassword: '',
+      name: '',
+      email: '',
       touched: {},
     });
   }
-
 
   handleChange = (key) => ({ target: { value } }) => {
     this.setState({ [key]: value });
