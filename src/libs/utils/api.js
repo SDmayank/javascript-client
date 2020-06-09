@@ -11,7 +11,7 @@ async function callApi(method, url, data) {
     });
     return response.data;
   } catch (error) {
-    return { status: 'error', message: 'This is a error message' };
+    return { message: error.message, status: 'error'};
   }
 }
 

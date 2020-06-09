@@ -39,7 +39,7 @@ export default class DeleteOpenDialog extends Component {
       });
     } else {
       this.setState({
-        message: 'This is an error',
+        message: 'This is an error message',
       }, () => {
         const { message } = this.state;
         openSnackBar(message, 'error');
