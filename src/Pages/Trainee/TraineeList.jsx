@@ -135,8 +135,19 @@ class Trainee extends React.Component {
     });
   };
 
+  onChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: event.target.value,
+      page: 0,
+
+    }, () => {
+      const { page } = this.state;
+      this.handleChangePage(event, page);
+    });
+  };
+
   handleChangePage = (event, newPage) => {
-    console.log('handle change page',newPage)
+    console.log('handle change page', newPage);
     const { rowsPerPage } = this.state;
     this.setState({ page: newPage, loading: true }, async () => {
       const response = await callApi('get', 'trainee', {
@@ -237,7 +248,7 @@ class Trainee extends React.Component {
           count={count}
           page={page}
           rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={this.handleChangePage}
+          onChangeRowsPerPage={this.onChangeRowsPerPage}
           onChangePage={this.handleChangePage}
           loading={loading}
           dataLength={tableData.length}
