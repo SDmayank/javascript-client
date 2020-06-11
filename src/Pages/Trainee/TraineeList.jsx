@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable react/no-unused-prop-types */
 import React, { Fragment } from 'react';
@@ -13,6 +14,8 @@ import {
 import {
   AddDialog, TraineeTable, EditOpenDialog, DeleteOpenDialog,
 } from './component';
+import callApi from '../../libs';
+import { MyContext } from '../../contexts';
 import trainees from './data/trainee';
 
 
@@ -52,12 +55,35 @@ class Trainee extends React.Component {
       EditOpen: false,
       DelOpen: false,
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 20,
       editData: {},
       deleteData: {},
+      tableData: '',
+      loading: false,
+      count: '',
     };
   }
 
+
+  componentDidMount() {
+    const { rowsPerPage, page } = this.state;
+    console.log('didmount');
+    this.setState({ loading: true }, async () => {
+      const response = await callApi('get', 'trainee', {
+        limit: rowsPerPage,
+        skip: page,
+      });
+      console.log('response', response);
+      this.setState({ loading: false }, () => {
+        if (response.status === 'ok') {
+          this.setState({ count: response.data.count, tableData: response.data.records });
+        } else {
+          const value = this.context;
+          value.openSnackBar(response.message, response.status);
+        }
+      });
+    });
+  }
 
   openDialog = (status) => {
     this.setState({ open: status });
@@ -109,14 +135,35 @@ class Trainee extends React.Component {
     });
   };
 
-  handleChangeRowsPerPage = (event) => {
+  onChangeRowsPerPage = (event) => {
     this.setState({
       rowsPerPage: event.target.value,
       page: 0,
 
+    }, () => {
+      const { page } = this.state;
+      this.handleChangePage(event, page);
     });
   };
 
+  handleChangePage = (event, newPage) => {
+    console.log('handle change page', newPage);
+    const { rowsPerPage } = this.state;
+    this.setState({ page: newPage, loading: true }, async () => {
+      const response = await callApi('get', 'trainee', {
+        limit: rowsPerPage,
+        skip: newPage * rowsPerPage,
+      });
+      this.setState({ loading: false }, () => {
+        if (response.status === 'ok') {
+          this.setState({ tableData: response.data.records });
+        } else {
+          const value = this.context;
+          value.openSnackBar(response.message, response.status);
+        }
+      });
+    });
+  }
 
   getFormattedDate = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
 
@@ -144,7 +191,7 @@ class Trainee extends React.Component {
 
   render() {
     const {
-      orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData,
+      orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData, loading, tableData, count,
     } = this.state;
 
     const { match: { url } } = this.props;
@@ -156,10 +203,10 @@ class Trainee extends React.Component {
             ADD TRAINEEList
           </Button>
         </div>
-        <AddDialog open={open} onClose={this.onClose} onSubmit={this.onSubmit} />
+        <AddDialog open={open} onClose={this.onClose} onSubmit={() => this.onSubmit} />
         <TraineeTable
           id="id"
-          data={trainees}
+          data={tableData}
           columns={
             [
               {
@@ -198,11 +245,13 @@ class Trainee extends React.Component {
           order={order}
           onSort={this.onSortHandle}
           onSelect={this.handleSelect}
-          count={100}
+          count={count}
           page={page}
           rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          onChangeRowsPerPage={this.onChangeRowsPerPage}
           onChangePage={this.handleChangePage}
+          loading={loading}
+          dataLength={tableData.length}
 
         />
         <EditOpenDialog
@@ -239,3 +288,4 @@ Trainee.propTypes = {
 };
 
 export default withStyles(useStyles)(Trainee);
+Trainee.contextType = MyContext;

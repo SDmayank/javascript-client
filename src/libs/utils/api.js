@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 async function callApi(method, url, data) {
@@ -7,11 +6,15 @@ async function callApi(method, url, data) {
     const response = await axios({
       method,
       url: completeUrl,
-      data,
+      data: { ...data },
+      params: { ...data },
+      headers: {
+        authorization: localStorage.getItem('Token'),
+      },
     });
     return response.data;
   } catch (error) {
-    return { message: error.message, status: 'error'};
+    return { status: 'error', message: error.message };
   }
 }
 
