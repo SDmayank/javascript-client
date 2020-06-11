@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.5",
+    "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.55",
     "@testing-library/jest-dom": "^4.2.4",
@@ -19,6 +19,7 @@
     "axois": "0.0.1-security",
     "commitizen": "^4.0.3",
     "d": "^1.0.1",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.3",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
