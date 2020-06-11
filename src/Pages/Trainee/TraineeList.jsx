@@ -106,7 +106,7 @@ class Trainee extends React.Component {
 
   onSubmit = (state, data) => {
     const { page } = this.state;
-    console.log('page', page,state);
+    console.log('page', page, state);
     this.setState({ [state]: false, data: {} }, (event) => {
       this.handleChangePage(event, page);
       console.log('Data Submitted', data);
@@ -116,9 +116,8 @@ class Trainee extends React.Component {
 
   handleDeleteClick = (data) => {
     const { rowsPerPage, count, page } = this.state;
-    console.log('handleDeleteClick', rowsPerPage, count, page);
     const result = count - (page * rowsPerPage);
-    this.setState({ openDelete: false, data: {} }, (event) => {
+    this.setState({ DelOpen: false, data: {} }, (event) => {
       console.log('Data Submitted', data);
       if (result === 1) {
         this.handleChangePage(event, (page - 1));
@@ -193,6 +192,11 @@ class Trainee extends React.Component {
     this.setState({ DelOpen });
   };
 
+  onCloseAddDialoge = () => {
+    let { open } = this.state;
+    open = false;
+    this.setState({ open });
+  }
 
   render() {
     const {
@@ -208,7 +212,7 @@ class Trainee extends React.Component {
             ADD TRAINEEList
           </Button>
         </div>
-        <AddDialog open={open} onClose={this.onClose} onSubmit={() => this.onSubmit} />
+        <AddDialog open={open} onClose={this.onCloseAddDialoge} onSubmit={() => this.onSubmit} />
         <TraineeTable
           id="id"
           data={tableData}
