@@ -9,9 +9,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { MyContext } from '../../../../contexts';
+
+import callApi from '../../../../libs';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required').min(3),
@@ -24,6 +27,11 @@ export default class EditOpenDialog extends React.Component {
     this.state = {
       Name: '',
       Email: '',
+      loading: false,
+      error: {
+        name: '',
+        email: '',
+      },
       touched: {
         name: false,
         email: false,
@@ -102,20 +110,44 @@ export default class EditOpenDialog extends React.Component {
     });
   }
 
-  formReset = () => {
-    this.setState({
-      name: '',
-      email: '',
-      touched: {},
+  putData = (value) => {
+    const {
+      name, email,
+    } = this.state;
+    const { onSubmit, data } = this.props;
+    this.setState({ loading: true }, async () => {
+      const response = await callApi('put', 'trainee', {
+        name,
+        email,
+        // password: 'Training@123',
+        id: data.originalId,
+      });
+      this.setState({ loading: false }, () => {
+        if (response.status === 'ok') {
+          onSubmit()('EditOpen', {
+            name, email,
+          });
+          this.formReset();
+          value.openSnackBar(response.message, 'success');
+        } else {
+          value.openSnackBar(response.message, response.status);
+        }
+      });
     });
+  }
+
+  formReset = () => {
+    if (JSON.stringify(this.state) !== JSON.stringify(this.baseState)) {
+      this.setState(this.baseState);
+    }
   }
 
 
   render() {
     const {
-      open, onClose, onSubmit, data,
+      open, onClose, data,
     } = this.props;
-    const { name, email } = this.state;
+    const { loading } = this.state;
     return (
       <div>
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -176,11 +208,15 @@ export default class EditOpenDialog extends React.Component {
                     color="primary"
                     disabled={this.hasErrors()}
                     onClick={() => {
-                      onSubmit({ name, email }); this.formReset();
-                      value.openSnackBar('This is a success message ! ', 'success');
+                      this.putData(value);
                     }}
                   >
-                    Submit
+                    {' '}
+                    {loading && (
+                      <CircularProgress color="secondary" />
+                    )}
+                    {loading && <span> Adding....</span>}
+                    {!loading && <span>Submit</span>}
                   </Button>
                 </>
               )}

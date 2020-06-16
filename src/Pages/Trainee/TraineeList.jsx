@@ -18,13 +18,13 @@ import callApi from '../../libs';
 import { MyContext } from '../../contexts';
 import trainees from './data/trainee';
 
-
 const useStyles = (theme) => ({
   button: {
     marginTop: theme.spacing(2),
   },
   buttonPosition: {
     display: 'flex',
+
     justifyContent: 'flex-end',
   },
   paper: {
@@ -55,7 +55,7 @@ class Trainee extends React.Component {
       EditOpen: false,
       DelOpen: false,
       page: 0,
-      rowsPerPage: 20,
+      rowsPerPage: 5,
       editData: {},
       deleteData: {},
       tableData: '',
@@ -63,7 +63,6 @@ class Trainee extends React.Component {
       count: '',
     };
   }
-
 
   componentDidMount() {
     const { rowsPerPage, page } = this.state;
@@ -90,14 +89,7 @@ class Trainee extends React.Component {
   }
 
   handleClose = () => {
-    console.log('mayank');
     this.setState({ EditOpen: false });
-  }
-
-  handleEditClick = (name, email) => {
-    console.log('mayank');
-    this.setState({ EditOpen: false });
-    console.log('Created Trainee', name, email);
   }
 
   handleEditDialogOpen = (data) => {
@@ -110,8 +102,29 @@ class Trainee extends React.Component {
     this.setState({ DelOpen: true, deleteData: data }, () => { console.log(this.state); });
   }
 
+  onSubmit = (state, data) => {
+    const { page } = this.state;
+    console.log('page', page, state);
+    this.setState({ [state]: false, data: {} }, (event) => {
+      this.handleChangePage(event, page);
+      console.log('Data Submitted', data);
+    });
+    return true;
+  }
+
   handleDeleteClick = (data) => {
-    this.setState({ DelOpen: false }, () => console.log('Deleted Trainee', data.data));
+    const { rowsPerPage, count, page } = this.state;
+    console.log('pasge', page);
+    const result = count - (page * rowsPerPage);
+    this.setState({ DelOpen: false, count: count - 1, data: {} }, (event) => {
+      console.log('Data Submitted', data);
+      console.log('result', result);
+      if (result === 1 && page > 0) {
+        this.handleChangePage(event, (page - 1));
+      } else {
+        this.handleChangePage(event, (page));
+      }
+    });
   }
 
   onSortHandle = (event, property) => {
@@ -129,11 +142,11 @@ class Trainee extends React.Component {
     this.setState({ selected: event.target.value }, () => console.log(data));
   };
 
-  handleChangePage = (event, newPage) => {
-    this.setState({
-      page: newPage,
-    });
-  };
+  // handleChangePage = (event, newPage) => {
+  //   this.setState({
+  //     page: newPage,
+  //   });
+  // };
 
   onChangeRowsPerPage = (event) => {
     this.setState({
@@ -147,7 +160,7 @@ class Trainee extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
-    console.log('handle change page', newPage);
+    console.log(newPage, 'new page');
     const { rowsPerPage } = this.state;
     this.setState({ page: newPage, loading: true }, async () => {
       const response = await callApi('get', 'trainee', {
@@ -167,7 +180,6 @@ class Trainee extends React.Component {
 
   getFormattedDate = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
 
-
   onOpen = () => {
     let { open } = this.state;
     open = true;
@@ -175,19 +187,16 @@ class Trainee extends React.Component {
   };
 
   onClose = () => {
+    let { DelOpen } = this.state;
+    DelOpen = false;
+    this.setState({ DelOpen });
+  };
+
+  onCloseAddDialoge = () => {
     let { open } = this.state;
     open = false;
     this.setState({ open });
-  };
-
-  onSubmit = (data) => {
-    const { open } = this.state;
-    this.setState({ open: false }, () => {
-      console.log(data);
-    });
-    return open;
   }
-
 
   render() {
     const {
@@ -203,7 +212,7 @@ class Trainee extends React.Component {
             ADD TRAINEEList
           </Button>
         </div>
-        <AddDialog open={open} onClose={this.onClose} onSubmit={() => this.onSubmit} />
+        <AddDialog open={open} onClose={this.onCloseAddDialoge} onSubmit={() => this.onSubmit} />
         <TraineeTable
           id="id"
           data={tableData}
@@ -257,12 +266,12 @@ class Trainee extends React.Component {
         <EditOpenDialog
           data={editData}
           onClose={this.handleClose}
-          onSubmit={this.handleEditClick}
+          onSubmit={() => this.onSubmit}
           open={EditOpen}
         />
         <DeleteOpenDialog
           data={deleteData}
-          onClose={this.handleDeleteClick}
+          onClose={this.onClose}
           onSubmit={this.handleDeleteClick}
           open={DelOpen}
         />
