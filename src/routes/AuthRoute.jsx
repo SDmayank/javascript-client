@@ -6,7 +6,6 @@ import { AuthLayout } from '../layouts/index';
 
 const AuthRoute = ({ component: Component, ...rest }) => {
   const token = localStorage.getItem('Token');
-  console.log('getToken', token);
   return (
     <>
       {token ? (

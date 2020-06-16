@@ -11,7 +11,6 @@ import * as moment from 'moment';
 import { MyContext } from '../../../../contexts';
 import callApi from '../../../../libs';
 
-
 export default class DeleteOpenDialog extends Component {
   constructor(props) {
     super(props);
@@ -26,17 +25,13 @@ export default class DeleteOpenDialog extends Component {
     this.setState({ loading: true }, async () => {
       const response = await callApi('delete', url, {});
       this.setState({ loading: false }, () => {
-        if (response === 'ok') {
-          onSubmit()(data);
+        if (response.status === 'ok') {
+          onSubmit(data);
           value.openSnackBar(response.message, 'success');
         } else {
           value.openSnackBar(response.message, response.status);
         }
       });
-
-      // if(respone == 'ok'){
-      //   const
-      // }
     });
   }
 
