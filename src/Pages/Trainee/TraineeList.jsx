@@ -18,7 +18,6 @@ import callApi from '../../libs';
 import { MyContext } from '../../contexts';
 import trainees from './data/trainee';
 
-
 const useStyles = (theme) => ({
   button: {
     marginTop: theme.spacing(2),
@@ -64,7 +63,6 @@ class Trainee extends React.Component {
       count: '',
     };
   }
-
 
   componentDidMount() {
     const { rowsPerPage, page } = this.state;
@@ -116,10 +114,12 @@ class Trainee extends React.Component {
 
   handleDeleteClick = (data) => {
     const { rowsPerPage, count, page } = this.state;
+    console.log('pasge', page);
     const result = count - (page * rowsPerPage);
-    this.setState({ DelOpen: false, data: {} }, (event) => {
+    this.setState({ DelOpen: false, count: count - 1, data: {} }, (event) => {
       console.log('Data Submitted', data);
-      if (result === 1) {
+      console.log('result', result);
+      if (result === 1 && page > 0) {
         this.handleChangePage(event, (page - 1));
       } else {
         this.handleChangePage(event, (page));
@@ -142,11 +142,11 @@ class Trainee extends React.Component {
     this.setState({ selected: event.target.value }, () => console.log(data));
   };
 
-  handleChangePage = (event, newPage) => {
-    this.setState({
-      page: newPage,
-    });
-  };
+  // handleChangePage = (event, newPage) => {
+  //   this.setState({
+  //     page: newPage,
+  //   });
+  // };
 
   onChangeRowsPerPage = (event) => {
     this.setState({
@@ -160,6 +160,7 @@ class Trainee extends React.Component {
   };
 
   handleChangePage = (event, newPage) => {
+    console.log(newPage, 'new page');
     const { rowsPerPage } = this.state;
     this.setState({ page: newPage, loading: true }, async () => {
       const response = await callApi('get', 'trainee', {
@@ -178,7 +179,6 @@ class Trainee extends React.Component {
   }
 
   getFormattedDate = (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
-
 
   onOpen = () => {
     let { open } = this.state;
