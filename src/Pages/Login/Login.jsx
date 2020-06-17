@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import { validKey } from '../Trainee';
 import Fields from '../mainComponent';
 import { loginIcons } from '../../config/constant';
-import callApi from '../../libs/utils/api';
 import { MyContext } from '../../contexts';
 
 
@@ -68,25 +67,27 @@ class Login extends Component {
     };
   }
 
-  fetchData = (value) => {
+
+  onSumbit = (value) => {
     const { email, password } = this.state;
+    const { LoginUser, history } = this.props;
 
     this.setState({ loading: true }, async () => {
-      const response = await callApi('post', 'user/login', {
-        email,
-        password,
-      });
-      this.setState({ loading: false }, () => {
-        if (response.status === 'ok') {
-          localStorage.setItem('Token', response.data);
-          const { history } = this.props;
+      try {
+        const response = await LoginUser({ variables: { email, password } });
+        this.setState({ loading: false }, () => {
+          const { loginUser } = response.data;
+          localStorage.setItem('Token', loginUser);
           history.push('/trainee');
-        } else {
-          value.openSnackBar(response.message, response.status);
-        }
-      });
+        });
+      } catch (error) {
+        this.setState({ loading: false }, () => {
+          value.openSnackBar(error.message, 'error');
+        });
+      }
     });
   }
+
 
   handleChange = (prop) => (event) => {
     this.setState({ [prop]: event.target.value }); this.setState({
@@ -191,7 +192,7 @@ class Login extends Component {
                     color="primary"
                     className={classes.submit}
                     disabled={loading || this.hasErrors()}
-                    onClick={() => { this.fetchData(value); }}
+                    onClick={() => { this.onSumbit(value); }}
                   >
                     {loading && (
                       <CircularProgress color="secondary" />
@@ -214,5 +215,6 @@ export default withStyles(useStyles)(Login);
 Login.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  LoginUser: PropTypes.func.isRequired,
 
 };
