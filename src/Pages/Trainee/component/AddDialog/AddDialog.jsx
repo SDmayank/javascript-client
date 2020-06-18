@@ -88,7 +88,7 @@ class AddDialog extends React.Component {
       });
       this.setState({ loading: false }, () => {
         if (response.status === 'ok') {
-          onSubmit()('open', {
+          onSubmit('open', {
             name, email, password, confirmPassword,
           });
           this.resetForm();
@@ -99,7 +99,6 @@ class AddDialog extends React.Component {
       });
     });
   }
-
 
   render() {
     const {

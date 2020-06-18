@@ -7,6 +7,7 @@ import { Table, TableSortLabel } from '@material-ui/core';
 import {
   makeStyles, withStyles,
 } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -51,6 +52,7 @@ function TraineeTable(props) {
     orderBy, onSort,
     onSelect, actions,
     count, rowsPerPage, page, onChangePage, onChangeRowsPerPage,
+    loading,
   } = props;
   const createSortHandler = (property) => (event) => {
     onSort(event, property);
@@ -83,61 +85,84 @@ function TraineeTable(props) {
             <TableCell />
           </TableRow>
         </TableHead>
-        <TableBody>
-          {data && data.length && data.map((element) => (
+        {loading ? (
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" colSpan={4}>
+                <div align="center">
+                  <CircularProgress color="secondary" />
+                </div>
+              </TableCell>
 
-            <StyledTableRow
-              onClick={(event) => onSelect(event, element)}
-              key={element[id]}
-              actions={actions}
-            >
-              <Fragment key={element.id}>
-                {
-                  columns && columns.length && columns.map(({
-                    field, align, Format,
-                  }) => (
-                    <TableCell
-                      align={align}
-                      component="th"
-                      scope="row"
-                    >
-                      {Format ? Format(element[field]) : element[field]}
+            </TableRow>
+          </TableBody>
+        ) : (
+          <TableBody>
+            {data.length ? data.map((element) => (
 
-                    </TableCell>
-                  ))
-                }
-                <TableCell>
-                  {actions && actions.length && actions.map(({ icon, handler }) => (
-                    // eslint-disable-next-line react/jsx-no-comment-textnodes
+              <StyledTableRow
+                onClick={(event) => onSelect(event, element)}
+                key={element[id]}
+                actions={actions}
+              >
+                <Fragment key={element.id}>
+                  {
+                    columns && columns.length && columns.map(({
+                      field, align, Format,
+                    }) => (
+                      <TableCell
+                        align={align}
+                        component="th"
+                        scope="row"
+                      >
+                        {Format ? Format(element[field]) : element[field]}
 
-                    <Button onClick={() => { handler(element); }}>
-                      {icon}
-                    </Button>
+                      </TableCell>
+                    ))
+                  }
+                  <TableCell>
+                    {actions && actions.length && actions.map(({ icon, handler }) => (
+                      // eslint-disable-next-line react/jsx-no-comment-textnodes
 
-                  ))}
+                      <Button onClick={() => { handler(element); }}>
+                        {icon}
+                      </Button>
+
+                    ))}
+                  </TableCell>
+                </Fragment>
+              </StyledTableRow>
+            )) : (
+              <TableRow>
+                <TableCell align="center" colSpan={4}>
+                  <div align="center">
+                    <h1>
+                      OOPS!, No More Trainees
+                    </h1>
+                  </div>
                 </TableCell>
-              </Fragment>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 25, 100, { label: 'All', value: -1 }]}
-              count={count}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={onChangePage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
 
+              </TableRow>
+            )}
+          </TableBody>
+        )}
       </Table>
+      <TableFooter>
+        <TableRow>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15, 25, 100, { label: 'All', value: -1 }]}
+            count={count}
+            SelectProps={{
+              inputProps: { 'aria-label': 'rows per page' },
+              native: true,
+            }}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={onChangePage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
+        </TableRow>
+      </TableFooter>
     </TableContainer>
   );
 }
@@ -157,13 +182,11 @@ TraineeTable.propTypes = {
   rowsPerPage: propTypes.number,
   onChangeRowsPerPage: propTypes.func.isRequired,
 
-
 };
 TraineeTable.defaultProps = {
   order: 'asc',
   page: 0,
   rowsPerPage: 100,
 };
-
 
 export default withLoaderAndMessage(TraineeTable);

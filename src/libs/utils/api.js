@@ -2,8 +2,7 @@ import axios from 'axios';
 
 async function callApi(method, url, data) {
   const completeUrl = process.env.REACT_APP_BASE_URL + url;
-  const token = localStorage.getItem('Token')
-  console.log('toke,', token)
+  console.log('comolete url', completeUrl)
   try {
     const response = await axios({
       method,
@@ -14,7 +13,6 @@ async function callApi(method, url, data) {
         authorization: localStorage.getItem('Token'),
       },
     });
-
     return response.data;
   } catch (error) {
     return { status: 'error', message: error.message };
