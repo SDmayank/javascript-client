@@ -146,23 +146,24 @@ function TraineeTable(props) {
             )}
           </TableBody>
         )}
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 15, 25, 100]}
+              count={count}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={onChangePage}
+              onChangeRowsPerPage={onChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
-      <TableFooter>
-        <TableRow>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 15, 25, 100, { label: 'All', value: -1 }]}
-            count={count}
-            SelectProps={{
-              inputProps: { 'aria-label': 'rows per page' },
-              native: true,
-            }}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={onChangePage}
-            onChangeRowsPerPage={onChangeRowsPerPage}
-          />
-        </TableRow>
-      </TableFooter>
+
     </TableContainer>
   );
 }
@@ -181,6 +182,7 @@ TraineeTable.propTypes = {
   onChangePage: propTypes.func.isRequired,
   rowsPerPage: propTypes.number,
   onChangeRowsPerPage: propTypes.func.isRequired,
+  loading: propTypes.bool.isRequired,
 
 };
 TraineeTable.defaultProps = {

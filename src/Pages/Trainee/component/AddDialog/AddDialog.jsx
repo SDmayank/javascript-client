@@ -5,9 +5,6 @@ import {
   Button,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import callApi from '../../../../libs/utils/api';
-
-import { MyContext } from '../../../../contexts/index';
 import { schema, icons } from '../../../../config/constant';
 import styles from './style';
 import validKey from '../DialogComponents';
@@ -20,7 +17,6 @@ class AddDialog extends React.Component {
       Name: '',
       Email: '',
       Password: '',
-      loading: false,
       confirmPassword: '',
       touched: {
         name: false,
@@ -74,37 +70,13 @@ class AddDialog extends React.Component {
     this.setState({ [key]: value });
   }
 
-  fetchData = (value) => {
-    const {
-      name, email, password,
-      confirmPassword,
-    } = this.state;
-    const { onSubmit } = this.props;
-    this.setState({ loading: true }, async () => {
-      const response = await callApi('post', 'trainee', {
-        name,
-        email,
-        password,
-      });
-      this.setState({ loading: false }, () => {
-        if (response.status === 'ok') {
-          onSubmit('open', {
-            name, email, password, confirmPassword,
-          });
-          this.resetForm();
-          value.openSnackBar(response.message, 'success');
-        } else {
-          value.openSnackBar(response.message, response.status);
-        }
-      });
-    });
-  }
-
   render() {
     const {
-      open, onClose, classes,
+      open, onClose, classes, onSubmit, loader: { loading },
     } = this.props;
-    const { loading } = this.state;
+    const {
+      name, email, confirmPassword,
+    } = this.state;
     const result = Object.keys(icons).map((key) => (
       <Fields
         helperText={this.getError(key)}
@@ -148,25 +120,22 @@ class AddDialog extends React.Component {
             <Button onClick={onClose} color="primary">
               CANCEL
             </Button>
-            <MyContext.Consumer>
-              {(value) => (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  disabled={loading || this.hasErrors()}
-                  onClick={() => {
-                    this.fetchData(value);
-                  }}
-                >
-                  {loading && (
-                    <CircularProgress color="secondary" />
-                  )}
-                  {loading && <span> Adding....</span>}
-                  {!loading && <span>Submit</span>}
-                </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disabled={loading || this.hasErrors()}
+              onClick={async () => {
+                await onSubmit({ name, email, password: confirmPassword });
+              }}
+            >
+              {loading && (
+                <CircularProgress color="secondary" />
               )}
-            </MyContext.Consumer>
+              {loading && <span> Adding....</span>}
+              {!loading && <span>Submit</span>}
+            </Button>
+
           </DialogActions>
         </Dialog>
       </>
@@ -177,8 +146,9 @@ class AddDialog extends React.Component {
 AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  loader: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(AddDialog);

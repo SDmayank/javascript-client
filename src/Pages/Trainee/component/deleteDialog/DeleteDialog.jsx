@@ -8,8 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import propTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as moment from 'moment';
-import { MyContext } from '../../../../contexts';
-import callApi from '../../../../libs';
 
 export default class DeleteOpenDialog extends Component {
   constructor(props) {
@@ -17,22 +15,6 @@ export default class DeleteOpenDialog extends Component {
     this.state = {
       loading: false,
     };
-  }
-
-  deleteData = (value) => {
-    const { onSubmit, data } = this.props;
-    const url = `trainee/${data.originalId}`;
-    this.setState({ loading: true }, async () => {
-      const response = await callApi('delete', url, {});
-      this.setState({ loading: false }, () => {
-        if (response.status === 'ok') {
-          onSubmit(data);
-          value.openSnackBar(response.message, 'success');
-        } else {
-          value.openSnackBar(response.message, response.status);
-        }
-      });
-    });
   }
 
   handleChange = (prop) => (event) => {
@@ -65,9 +47,8 @@ export default class DeleteOpenDialog extends Component {
 
   render() {
     const {
-      open, onClose,
+      open, onClose, loader: { loading }, data, onSubmit
     } = this.props;
-    const { loading } = this.state;
     return (
       <div>
         <Dialog open={open} onClose={() => this.handleClose()} aria-labelledby="form-dialog-title" fullWidth>
@@ -79,24 +60,20 @@ export default class DeleteOpenDialog extends Component {
             <Button onClick={onClose} color="primary">
               Cancel
             </Button>
-            <MyContext.Consumer>
-              {(value) => (
-                <>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => {
-                      this.deleteData(value);
-                    }}
-                  >
-                    {loading && (<CircularProgress color="secondary" />)}
-                    {loading && <span> Deleting....</span>}
-                    {!loading && <span>Delete</span>}
+            <>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {
+                  onSubmit({ id: data.originalId });
+                }}
+              >
+                {loading && (<CircularProgress color="secondary" />)}
+                {loading && <span> Deleting....</span>}
+                {!loading && <span>Delete</span>}
 
-                  </Button>
-                </>
-              )}
-            </MyContext.Consumer>
+              </Button>
+            </>
           </DialogActions>
         </Dialog>
       </div>
