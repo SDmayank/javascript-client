@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable array-callback-return */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +14,6 @@ import {
 import { CardActions } from '@material-ui/core';
 import trainees from './data/trainee';
 import NotFound from '../nomatch';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {

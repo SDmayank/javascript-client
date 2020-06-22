@@ -24,6 +24,7 @@ import { MyContext } from '../../contexts';
 import trainees from './data/trainee';
 import { GET_TRAINEE } from './query';
 import { CREATE_TRAINEE, EDIT_TRAINEE, DELETE_TRAINEE } from './mutation';
+import { UPDATE_TRAINEE_SUB, DELETE_TRAINEE_SUB } from './subscription';
 
 const useStyles = (theme) => ({
   button: {
@@ -62,33 +63,13 @@ class Trainee extends React.Component {
       EditOpen: false,
       DelOpen: false,
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 83,
       editData: {},
       deleteData: {},
       tableData: '',
       loading: false,
     };
   }
-
-  // componentDidMount() {
-  //   const { rowsPerPage, page } = this.state;
-  //   console.log('didmount');
-  //   this.setState({ loading: true }, async () => {
-  //     const response = await callApi('get', 'trainee', {
-  //       limit: rowsPerPage,
-  //       skip: page,
-  //     });
-  //     console.log('response', response);
-  //     this.setState({ loading: false }, () => {
-  //       if (response.status === 'ok') {
-  //         this.setState({ count: response.data.count, tableData: response.data.records });
-  //       } else {
-  //         const value = this.context;
-  //         value.openSnackBar(response.message, response.status);
-  //       }
-  //     });
-  //   });
-  // }
 
   openDialog = (status) => {
     this.setState({ open: status });
@@ -121,10 +102,57 @@ class Trainee extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    console.log('in component di mount');
+    const { data: { subscribeToMore } } = this.props;
+    subscribeToMore({
+      document: UPDATE_TRAINEE_SUB,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const { getAll: { records } } = prev;
+        const { data: { traineeUpdated } } = subscriptionData;
+        const updatedRecords = [...records].map((record) => {
+          if (record.originalId === traineeUpdated.originalId) {
+            return {
+              ...record,
+              ...traineeUpdated,
+            };
+          }
+          return record;
+        });
+        return {
+          getAll: {
+            ...prev.getAll,
+            count: prev.getAll.count,
+            records: updatedRecords,
+          },
+        };
+      },
+    });
+    subscribeToMore({
+      document: DELETE_TRAINEE_SUB,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const { getAll: { records } } = prev;
+        console.log('records', records);
+        const { data: { traineeDeleted } } = subscriptionData;
+        const updatedRecords = [...records].filter((record) => record.originalId !== traineeDeleted);
+        return {
+          getAll: {
+            ...prev.getAll,
+            count: prev.getAll.count - 1,
+            records: updatedRecords,
+          },
+        };
+      },
+    });
+  }
+
   onUpdate = (openSnackbar, updateTrainee) => (data) => {
     console.log('Edit Data', data);
     updateTrainee({ variables: data }).then((response) => {
       console.log('Response', response);
+
       this.setState({ EditOpen: false, data: {} }, () => {
         openSnackbar('Trainee Updated Successfully', 'success');
       });
@@ -140,34 +168,15 @@ class Trainee extends React.Component {
     deleteTrainee({ variables: data }).then((response) => {
       console.log('Response', response);
       if (result === 1) {
-        this.setState({ DelOpen: false, data: {}, page: (page - 1) }, () => {
-          refetch({ limit: rowsPerPage, skip: rowsPerPage * (page - 1) });
-        });
+        this.setState({ DelOpen: false, data: {}, page: (page - 1) });
       } else {
-        this.setState({ DelOpen: false, data: {} }, () => {
-          refetch({ limit: rowsPerPage, skip: rowsPerPage * page });
-        });
+        this.setState({ DelOpen: false, data: {} });
       }
       openSnackbar('Trainee deleted Successfully', 'success');
     }).catch((error) => {
       openSnackbar(error.message, 'error');
     });
   }
-
-  // handleDeleteClick = (data) => {
-  //   const { rowsPerPage, count, page } = this.state;
-  //   console.log('pasge', page);
-  //   const result = count - (page * rowsPerPage);
-  //   this.setState({ DelOpen: false, count: count - 1, data: {} }, (event) => {
-  //     console.log('Data Submitted', data);
-  //     console.log('result', result);
-  //     if (result === 1 && page > 0) {
-  //       this.handleChangePage(event, (page - 1));
-  //     } else {
-  //       this.handleChangePage(event, (page));
-  //     }
-  //   });
-  // }
 
   onSortHandle = (event, property) => {
     const { order, orderBy } = this.state;
@@ -235,7 +244,7 @@ class Trainee extends React.Component {
     const {
       orderBy, order, open, EditOpen, DelOpen, page, rowsPerPage, editData, deleteData, tableData,
     } = this.state;
-
+    /* doubt */
     const { match: { url } } = this.props;
     const { openSnackBar } = this.context;
     const variables = { limit: rowsPerPage, skip: rowsPerPage * page };
@@ -312,7 +321,7 @@ class Trainee extends React.Component {
           dataLength={records.length}
 
         />
-        <Mutation mutation={EDIT_TRAINEE} refetchQueries={[{ query: GET_TRAINEE, variables }]}>
+        <Mutation mutation={EDIT_TRAINEE}>
           {(updateTrainee, loader = { loading }) => (
             <EditOpenDialog
               data={editData}
@@ -323,7 +332,7 @@ class Trainee extends React.Component {
             />
           )}
         </Mutation>
-        <Mutation mutation={DELETE_TRAINEE} refetchQueries={[{ query: GET_TRAINEE, variables }]}>
+        <Mutation mutation={DELETE_TRAINEE}>
           {(deleteTrainee, loader = { loading }) => (
             <DeleteOpenDialog
               data={deleteData}
@@ -359,7 +368,7 @@ Trainee.propTypes = {
 export default compose(
   withStyles(useStyles),
   graphql(GET_TRAINEE, {
-    options: { variables: { limit: 5, skip: 0 } },
+    options: { variables: { limit: 84, skip: 0 } },
   }),
 )(Trainee);
 Trainee.contextType = MyContext;

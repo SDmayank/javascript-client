@@ -15,7 +15,6 @@ import Fields from '../mainComponent';
 import { loginIcons } from '../../config/constant';
 import { MyContext } from '../../contexts';
 
-
 const schema = yup.object().shape({
   email: yup.string().email().required('Email is required'),
   password: yup.string().required('Password is required'),
@@ -67,7 +66,6 @@ class Login extends Component {
     };
   }
 
-
   onSumbit = (value) => {
     const { email, password } = this.state;
     const { LoginUser, history } = this.props;
@@ -88,7 +86,6 @@ class Login extends Component {
     });
   }
 
-
   handleChange = (prop) => (event) => {
     this.setState({ [prop]: event.target.value }); this.setState({
       [prop]: event.target.value,
@@ -96,7 +93,6 @@ class Login extends Component {
       this.getError(prop);
     });
   };
-
 
   hasErrors = () => {
     const { hasError } = this.state;
@@ -108,7 +104,6 @@ class Login extends Component {
         }
       });
   }
-
 
   isTouched = (field) => {
     const { touched } = this.state;

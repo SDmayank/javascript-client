@@ -31,5 +31,4 @@ const trainees = [
   },
 ];
 
-
 export default trainees;

@@ -47,7 +47,7 @@ export default class DeleteOpenDialog extends Component {
 
   render() {
     const {
-      open, onClose, loader: { loading }, data, onSubmit
+      open, onClose, loader: { loading }, data, onSubmit,
     } = this.props;
     return (
       <div>
@@ -86,4 +86,5 @@ DeleteOpenDialog.propTypes = {
   onClose: propTypes.func.isRequired,
   onSubmit: propTypes.func.isRequired,
   data: propTypes.objectOf(propTypes.string).isRequired,
+  loader: propTypes.bool.isRequired,
 };
